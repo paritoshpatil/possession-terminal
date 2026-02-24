@@ -70,7 +70,7 @@ Each task was committed atomically:
 1. **Task 1: Python package scaffold and CLI entry point** - `55f50f6` (feat)
 2. **Task 2: SQLite schema and DB initialization module** - `3201eda` (feat)
 
-**Plan metadata:** (to be added with final docs commit)
+**Plan metadata:** `c1c0e20` (docs: complete plan)
 
 ## Files Created/Modified
 
