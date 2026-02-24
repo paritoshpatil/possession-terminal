@@ -47,6 +47,8 @@ class MainScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._items: List[dict] = []
+        self._rooms: List[dict] = []
+        self._containers: List[dict] = []
         self._last_key: str = ""
         # Drill-down state
         self._view_mode: str = "rooms"
@@ -85,27 +87,45 @@ class MainScreen(Screen):
         self._apply_filter(event.value)
 
     def _apply_filter(self, query: str) -> None:
-        """Filter the item DataTable by query string (case-insensitive)."""
-        if self._view_mode != "items":
-            return
+        """Filter the DataTable by query string (case-insensitive). Works in all view modes."""
         table = self.query_one(DataTable)
         table.clear()
         q = query.lower().strip()
-        for item in self._items:
-            if q and not any(
-                q in (item.get(f) or "").lower()
-                for f in ("name", "description", "room_name",
-                          "container_name", "category_name")
-            ):
-                continue
-            table.add_row(
-                item["name"],
-                item.get("description") or "",
-                _fmt_location(item),
-                item.get("category_name") or "",
-                _fmt_cost(item.get("cost")),
-                key=str(item["id"]),
-            )
+
+        if self._view_mode == "rooms":
+            for room in self._rooms:
+                if q and q not in room["name"].lower():
+                    continue
+                table.add_row(
+                    room["name"],
+                    str(room["_container_count"]),
+                    key=str(room["id"]),
+                )
+        elif self._view_mode == "containers":
+            for c in self._containers:
+                if q and q not in c["name"].lower():
+                    continue
+                table.add_row(
+                    c["name"],
+                    str(c["_item_count"]),
+                    key=str(c["id"]),
+                )
+        else:  # items
+            for item in self._items:
+                if q and not any(
+                    q in (item.get(f) or "").lower()
+                    for f in ("name", "description", "room_name",
+                              "container_name", "category_name")
+                ):
+                    continue
+                table.add_row(
+                    item["name"],
+                    item.get("description") or "",
+                    _fmt_location(item),
+                    item.get("category_name") or "",
+                    _fmt_cost(item.get("cost")),
+                    key=str(item["id"]),
+                )
 
     # ------------------------------------------------------------------
     # Drill-down state machine
@@ -122,26 +142,22 @@ class MainScreen(Screen):
         if self._view_mode == "rooms":
             table.add_columns("Room", "Containers")
             rooms = list_rooms(self.app.db_path)
+            self._rooms = []
             for room in rooms:
                 containers = list_containers(self.app.db_path, room_id=room["id"])
-                table.add_row(
-                    room["name"],
-                    str(len(containers)),
-                    key=str(room["id"]),
-                )
+                self._rooms.append({**room, "_container_count": len(containers)})
+            self._apply_filter("")
 
         elif self._view_mode == "containers":
             table.add_columns("Container", "Items")
             containers = list_containers(
                 self.app.db_path, room_id=self._current_room_id
             )
+            self._containers = []
             for c in containers:
                 items = list_items(self.app.db_path, container_id=c["id"])
-                table.add_row(
-                    c["name"],
-                    str(len(items)),
-                    key=str(c["id"]),
-                )
+                self._containers.append({**c, "_item_count": len(items)})
+            self._apply_filter("")
 
         else:  # "items"
             table.add_columns("Name", "Description", "Location", "Category", "Cost")
