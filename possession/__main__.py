@@ -20,7 +20,9 @@ def main():
     db_override = args.db or os.environ.get("POSSESSION_DB")
 
     resolved_path = init_db(db_override)
-    print(f"Database ready: {resolved_path}")
+
+    from possession.tui.app import PossessionApp
+    PossessionApp(db_path=resolved_path).run()
 
 
 if __name__ == "__main__":
