@@ -27,9 +27,9 @@
 
 ### Item Management
 
-- [ ] **ITEM-01**: User can edit any item field via an inline form (triggered by `e` key)
-- [ ] **ITEM-02**: User can delete an item with a confirmation prompt (triggered by `d` key)
-- [ ] **ITEM-03**: User can move an item to a different room or container
+- [x] **ITEM-01**: User can edit any item field via an inline form (triggered by `e` key)
+- [x] **ITEM-02**: User can delete an item with a confirmation prompt (triggered by `d` key)
+- [x] **ITEM-03**: User can move an item to a different room or container
 
 ### Storage
 
@@ -77,9 +77,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | QADD-01 | Phase 3 | Pending |
 | QADD-02 | Phase 3 | Pending |
 | QADD-03 | Phase 3 | Pending |
-| ITEM-01 | Phase 3 | Pending |
-| ITEM-02 | Phase 3 | Pending |
-| ITEM-03 | Phase 3 | Pending |
+| ITEM-01 | Phase 3 | Complete |
+| ITEM-02 | Phase 3 | Complete |
+| ITEM-03 | Phase 3 | Complete |
 
 **Coverage:**
 - v1 requirements: 16 total
