@@ -33,8 +33,8 @@
 
 ### Storage
 
-- [ ] **STOR-01**: All data is stored in a single SQLite `.db` file
-- [ ] **STOR-02**: User can configure the database file path via environment variable or CLI flag
+- [x] **STOR-01**: All data is stored in a single SQLite `.db` file
+- [x] **STOR-02**: User can configure the database file path via environment variable or CLI flag
 
 ## v2 Requirements
 
@@ -68,8 +68,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-02 | Phase 1 | Pending |
 | DATA-03 | Phase 1 | Pending |
 | DATA-04 | Phase 1 | Pending |
-| STOR-01 | Phase 1 | Pending |
-| STOR-02 | Phase 1 | Pending |
+| STOR-01 | Phase 1 | Complete (01-01) |
+| STOR-02 | Phase 1 | Complete (01-01) |
 | NAV-01 | Phase 2 | Pending |
 | NAV-02 | Phase 2 | Pending |
 | NAV-03 | Phase 2 | Pending |

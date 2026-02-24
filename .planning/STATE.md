@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 ## Current Position
 
 Phase: 1 of 3 (Foundation)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-02-24 — Roadmap created, Phase 1 ready to plan
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-02-24 — Completed 01-01: Python package scaffold, SQLite schema, DB initialization
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░] 10%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: —
+- Total plans completed: 1
+- Average duration: 3 min
+- Total execution time: 3 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 1 - Foundation | 1 | 3 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: —
-- Trend: —
+- Last 5 plans: 3 min
+- Trend: Baseline established
 
 *Updated after each plan completion*
 
@@ -46,6 +46,9 @@ Recent decisions affecting current work:
 - Init: Single SQLite file — no server, trivially portable
 - Init: `/`-separated quick-add to minimize keystrokes
 - Init: Prompt on new room/container to prevent typo clutter
+- 01-01: requires-python set to >=3.9 (not >=3.11) — only Python 3.9 available; Optional[str] used instead of str | None union syntax
+- 01-01: ON DELETE CASCADE for containers (preserve parent relationship), ON DELETE SET NULL for items (preserve items when location deleted)
+- 01-01: UNIQUE(name, room_id) on containers — same name allowed in different rooms
 
 ### Pending Todos
 
@@ -58,5 +61,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-24
-Stopped at: Roadmap created — 3 phases defined, 16/16 requirements mapped
+Stopped at: Completed 01-01-PLAN.md — Python package scaffold, SQLite schema (4 tables), DB initialization module
 Resume file: None
