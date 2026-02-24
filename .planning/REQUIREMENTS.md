@@ -21,9 +21,9 @@
 ### Navigation
 
 - [x] **NAV-01**: User can navigate lists with `j`/`k` (up/down) and `gg`/`G` (top/bottom) VIM-style keybindings
-- [ ] **NAV-02**: User can filter the item list live by pressing `/` then typing a query
-- [ ] **NAV-03**: User can drill down from the main item list into a room view, then into a container view (Enter to drill in, `q` to go back)
-- [ ] **NAV-04**: A breadcrumb trail displays the current navigation location (e.g. `Garage > Tool Cabinet`)
+- [x] **NAV-02**: User can filter the item list live by pressing `/` then typing a query
+- [x] **NAV-03**: User can drill down from the main item list into a room view, then into a container view (Enter to drill in, `q` to go back)
+- [x] **NAV-04**: A breadcrumb trail displays the current navigation location (e.g. `Garage > Tool Cabinet`)
 
 ### Item Management
 
@@ -71,9 +71,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STOR-01 | Phase 1 | Complete (01-01) |
 | STOR-02 | Phase 1 | Complete (01-01) |
 | NAV-01 | Phase 2 | Complete |
-| NAV-02 | Phase 2 | Pending |
-| NAV-03 | Phase 2 | Pending |
-| NAV-04 | Phase 2 | Pending |
+| NAV-02 | Phase 2 | Complete |
+| NAV-03 | Phase 2 | Complete |
+| NAV-04 | Phase 2 | Complete |
 | QADD-01 | Phase 3 | Pending |
 | QADD-02 | Phase 3 | Pending |
 | QADD-03 | Phase 3 | Pending |

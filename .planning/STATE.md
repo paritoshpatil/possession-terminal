@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 ## Current Position
 
 Phase: 2 of 3 (Browse)
-Plan: 1 of 3 in current phase (plan 1 complete)
-Status: Phase 2 in progress — 02-01 complete, 02-02 next
-Last activity: 2026-02-24 — Completed 02-01: Textual TUI shell, DataTable item list, VIM keybindings
+Plan: 2 of 3 in current phase (plans 1-2 complete)
+Status: Phase 2 in progress — 02-01 and 02-02 complete, 02-03 next
+Last activity: 2026-02-24 — Completed 02-02: filter bar, drill-down navigation, breadcrumb widget
 
-Progress: [███░░░░░░░] 33%
+Progress: [████░░░░░░] 44%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: 2.3 min
-- Total execution time: 7 min
+- Total plans completed: 4
+- Average duration: 2.25 min
+- Total execution time: 9 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 - Foundation | 2 | 5 min | 2.5 min |
-| 2 - Browse | 1 | 2 min | 2 min |
+| 2 - Browse | 2 | 6 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 3 min, 2 min, 2 min
+- Last 5 plans: 3 min, 2 min, 2 min, 4 min
 - Trend: Fast execution, straightforward implementation
 
 *Updated after each plan completion*
@@ -56,6 +56,11 @@ Recent decisions affecting current work:
 - 02-01: db_path passed into PossessionApp constructor and accessed via self.app.db_path in screens — avoids global state
 - 02-01: Textual import deferred inside main() in __main__.py — keeps startup path clean
 - 02-01: gg sequence tracked with _last_key string state in on_key handler — simpler than Textual action sequences, Python 3.9 compatible
+- 02-02: Breadcrumb imported inside compose()/methods to avoid circular import risk
+- 02-02: table.clear(columns=True) wrapped in try/except TypeError for Textual version compatibility
+- 02-02: Initial view mode on mount is "rooms" so users see spatial hierarchy first (not flat item dump)
+- 02-02: _apply_filter guarded by _view_mode == "items" so filter only active in item-list mode
+- 02-02: q at rooms level calls self.app.exit() — no screen to pop to at top level
 
 ### Pending Todos
 
@@ -68,5 +73,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-24
-Stopped at: Completed 02-01-PLAN.md — Textual TUI shell, DataTable item list with VIM navigation
+Stopped at: Completed 02-02-PLAN.md — filter bar, drill-down navigation, breadcrumb widget
 Resume file: None

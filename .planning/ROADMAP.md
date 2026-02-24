@@ -47,8 +47,8 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — TUI app shell, DataTable with VIM navigation (NAV-01)
-- [ ] 02-02-PLAN.md — Live filter bar, drill-down hierarchy, breadcrumb widget (NAV-02, NAV-03, NAV-04)
+- [x] 02-01-PLAN.md — TUI app shell, DataTable with VIM navigation (NAV-01)
+- [x] 02-02-PLAN.md — Live filter bar, drill-down hierarchy, breadcrumb widget (NAV-02, NAV-03, NAV-04)
 - [ ] 02-03-PLAN.md — Human verification checkpoint for end-to-end browse experience
 
 ### Phase 3: Manage
@@ -71,5 +71,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete    | 2026-02-24 |
-| 2. Browse | 0/TBD | Not started | - |
+| 2. Browse | 2/3 | In Progress | - |
 | 3. Manage | 0/TBD | Not started | - |
