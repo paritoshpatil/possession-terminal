@@ -8,6 +8,20 @@ A terminal-based TUI application for home inventory management, built with Pytho
 
 Users can instantly find where any item is stored and know what they own, entirely from the terminal with zero friction.
 
+## Current Milestone: v1.1 UI Overhaul
+
+**Goal:** Rebuild the main screen as a flat item list with filters, add a splash screen, persistent top bar, stats bar, terminal theme colors, item detail panel, and improve the quick-add UX.
+
+**Target features:**
+- Flat item list as default view (all items, no drill-down required)
+- VIM-style filter pickers for Room, Container, Category
+- Terminal theme colors (transparent background, terminal foreground)
+- Stats bar showing item count, rooms, containers, total value
+- Splash screen with ASCII art on launch (dismiss with any key)
+- Persistent top bar with app name
+- Item detail panel on Enter
+- Quick-add persistent format label (always visible, replaces placeholder)
+
 ## Requirements
 
 ### Validated
@@ -30,10 +44,16 @@ Users can instantly find where any item is stored and know what they own, entire
 
 ### Active
 
+- [ ] Main screen shows flat list of all items by default (VIEW-01)
+- [ ] VIM-style filter pickers for Room, Container, Category (FILT-01, FILT-02, FILT-03)
+- [ ] Splash screen with ASCII art on launch, dismiss with any key (SPSH-01)
+- [ ] Persistent top bar with "Possession" app name (TOPBAR-01)
+- [ ] Stats bar: item count (filtered/total), rooms, containers, total value (STAT-01)
+- [ ] Item detail panel on Enter key (PANEL-01)
+- [ ] Terminal theme colors — transparent background, terminal foreground (THEME-01)
+- [ ] Quick-add persistent format label always visible while typing (QADD-04)
 - [ ] Export full inventory to CSV (EXPO-01)
 - [ ] Generate printable inventory report (EXPO-02)
-- [ ] Filter items by multiple fields simultaneously, e.g. room AND category (SRCH-01)
-- [ ] Sort item list by any column (SRCH-02)
 - [ ] Duplicate item shortcut
 - [ ] Undo last action
 
@@ -76,7 +96,7 @@ Tech stack: Python 3.9+, Textual ≥0.47.0, SQLite (stdlib), pytest.
 | requires-python ≥3.9 (not 3.11) | Only Python 3.9 available in dev environment | ✓ Good — Optional[str] used throughout |
 | per-call connection pattern in models | Simpler for CLI tool, no concurrent access | ✓ Good — no issues encountered |
 | _UNSET sentinel for nullable FKs | None alone is ambiguous for update_item | ✓ Good — clean API for callers |
-| Initial view: rooms (not flat list) | Reflects mental model of physical spaces | ✓ Good — user navigates naturally |
+| Initial view: rooms (not flat list) | Reflects mental model of physical spaces | ⚠️ Revisit — v1.1 moving to flat list |
 
 ---
-*Last updated: 2026-02-24 after v1.0 milestone*
+*Last updated: 2026-02-24 after v1.1 milestone started*

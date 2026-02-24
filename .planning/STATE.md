@@ -5,14 +5,14 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Users can instantly find where any item is stored and know what they own, entirely from the terminal with zero friction.
-**Current focus:** Planning next milestone (v1.0 shipped 2026-02-24)
+**Current focus:** Milestone v1.1 UI Overhaul — defining requirements
 
 ## Current Position
 
-Phase: 3 of 3 (Manage)
-Plan: 3 of 3 in current phase (plans 03-01, 03-02, 03-03 complete)
-Status: Phase 3 complete — all plans done
-Last activity: 2026-02-24 — Completed 03-03: EditItemScreen and delete confirmation
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements for v1.1 UI Overhaul
+Last activity: 2026-02-24 — Milestone v1.1 started
 
 Progress: [██████████] 100%
 
