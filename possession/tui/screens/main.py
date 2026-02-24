@@ -5,7 +5,7 @@ from textual.app import ComposeResult
 from textual.screen import Screen
 from textual.widgets import DataTable, Input
 
-from possession.models import list_items, list_rooms, list_containers
+from possession.models import list_items, list_rooms, list_containers, delete_item
 
 
 def _fmt_location(row: dict) -> str:
@@ -42,6 +42,8 @@ class MainScreen(Screen):
         ("G", "cursor_bottom", "Bottom"),
         ("/", "open_filter", "Filter"),
         ("a", "open_quickadd", "Add"),
+        ("e", "edit_item", "Edit"),
+        ("d", "delete_item", "Delete"),
         ("q", "go_back", "Back"),
     ]
 
@@ -57,6 +59,8 @@ class MainScreen(Screen):
         self._current_room_name: str = ""
         self._current_container_id: Optional[int] = None
         self._current_container_name: str = ""
+        # Delete confirmation state
+        self._delete_pending_id: Optional[int] = None
 
     def compose(self) -> ComposeResult:
         from possession.tui.widgets.breadcrumb import Breadcrumb
@@ -69,6 +73,11 @@ class MainScreen(Screen):
             classes="hidden",
         )
         yield QuickAddBar(id="quickadd-bar", classes="hidden")
+        yield Input(
+            placeholder="Delete item? [y/N]",
+            id="delete-confirm",
+            classes="hidden",
+        )
 
     def on_mount(self) -> None:
         self._view_mode = "rooms"
@@ -93,6 +102,63 @@ class MainScreen(Screen):
     def on_quick_add_bar_item_saved(self, event) -> None:
         """Reload the DataTable after a quick-add save."""
         self._load_view()
+
+    def on_screen_resume(self) -> None:
+        """Reload DataTable whenever this screen returns to the foreground (e.g. after edit)."""
+        self._load_view()
+
+    def _get_current_row_key_str(self) -> Optional[str]:
+        """Return the string row key for the currently highlighted DataTable row, or None."""
+        table = self.query_one(DataTable)
+        row_keys = list(table.rows.keys())
+        if table.cursor_row < len(row_keys):
+            return row_keys[table.cursor_row].value
+        return None
+
+    def action_edit_item(self) -> None:
+        """Open EditItemScreen for the currently selected item (items view only)."""
+        if self._view_mode != "items":
+            return
+        row_key_str = self._get_current_row_key_str()
+        if row_key_str is None:
+            return
+        item = next((i for i in self._items if str(i["id"]) == row_key_str), None)
+        if item is not None:
+            from possession.tui.screens.edit import EditItemScreen
+            self.app.push_screen(EditItemScreen(item, self.app.db_path))
+
+    def action_delete_item(self) -> None:
+        """Show delete confirmation prompt for the currently selected item (items view only)."""
+        if self._view_mode != "items":
+            return
+        row_key_str = self._get_current_row_key_str()
+        if row_key_str is None:
+            return
+        item = next((i for i in self._items if str(i["id"]) == row_key_str), None)
+        if item is not None:
+            self._delete_pending_id = item["id"]
+            del_inp = self.query_one("#delete-confirm", Input)
+            del_inp.placeholder = f"Delete '{item['name']}'? [y/N]"
+            del_inp.remove_class("hidden")
+            del_inp.focus()
+
+    def on_input_submitted(self, event: Input.Submitted) -> None:
+        """Handle Enter on the delete confirmation input."""
+        if event.input.id == "delete-confirm":
+            val = event.value.strip().lower()
+            event.input.value = ""
+            event.input.add_class("hidden")
+            self.query_one(DataTable).focus()
+            if val == "y" and self._delete_pending_id is not None:
+                try:
+                    delete_item(self.app.db_path, self._delete_pending_id)
+                except ValueError:
+                    pass  # already gone
+                self._delete_pending_id = None
+                self._load_view()
+            else:
+                self._delete_pending_id = None
+            return
 
     def on_input_changed(self, event: Input.Changed) -> None:
         """Live-filter the DataTable as the user types."""
@@ -263,6 +329,14 @@ class MainScreen(Screen):
     def on_key(self, event: events.Key) -> None:
         """Handle multi-key sequences and filter bar escape."""
         if event.key == "escape":
+            del_inp = self.query_one("#delete-confirm", Input)
+            if not del_inp.has_class("hidden"):
+                del_inp.value = ""
+                del_inp.add_class("hidden")
+                self._delete_pending_id = None
+                self.query_one(DataTable).focus()
+                event.prevent_default()
+                return
             inp = self.query_one("#filter-input", Input)
             if not inp.has_class("hidden"):
                 inp.value = ""
