@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - SQLite database, schema, and all data model CRUD (rooms, containers, categories, items) (completed 2026-02-24)
 - [x] **Phase 2: Browse** - TUI item list with VIM navigation, live filtering, drill-down hierarchy, and breadcrumbs (completed 2026-02-24)
-- [ ] **Phase 3: Manage** - Quick-add bar, inline edit, delete with confirmation, and move item
+- [x] **Phase 3: Manage** - Quick-add bar, inline edit, delete with confirmation, and move item (completed 2026-02-24)
 
 ## Phase Details
 
@@ -78,4 +78,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete    | 2026-02-24 |
 | 2. Browse | 2/3 | Complete    | 2026-02-24 |
-| 3. Manage | 3/4 | In Progress|  |
+| 3. Manage | 3/4 | Complete    | 2026-02-24 |
