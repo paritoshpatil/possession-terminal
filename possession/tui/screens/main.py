@@ -258,11 +258,11 @@ class MainScreen(Screen):
 
     def action_cursor_down(self) -> None:
         """Move cursor down one row."""
-        self.query_one(DataTable).action_scroll_cursor_down()
+        self.query_one(DataTable).action_cursor_down()
 
     def action_cursor_up(self) -> None:
         """Move cursor up one row."""
-        self.query_one(DataTable).action_scroll_cursor_up()
+        self.query_one(DataTable).action_cursor_up()
 
     def action_cursor_bottom(self) -> None:
         """Jump cursor to the last row."""
