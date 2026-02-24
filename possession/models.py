@@ -238,6 +238,73 @@ def create_item(
         conn.close()
 
 
+# Sentinel for "caller did not pass this argument" — distinct from None (which means set to NULL)
+_UNSET = object()
+
+
+def update_item(
+    db_path: Path,
+    item_id: int,
+    name: Optional[str] = None,
+    description: Optional[str] = None,
+    room_id: object = _UNSET,
+    container_id: object = _UNSET,
+    category_id: object = _UNSET,
+    purchase_date: Optional[str] = None,
+    cost: Optional[float] = None,
+) -> None:
+    """Update any subset of item fields. Only fields explicitly passed are modified.
+    For room_id, container_id, category_id: pass None to set the field to NULL.
+    Raises ValueError if item_id not found.
+    """
+    pairs = []
+    if name is not None:
+        pairs.append(("name", name))
+    if description is not None:
+        pairs.append(("description", description))
+    if room_id is not _UNSET:
+        pairs.append(("room_id", room_id))
+    if container_id is not _UNSET:
+        pairs.append(("container_id", container_id))
+    if category_id is not _UNSET:
+        pairs.append(("category_id", category_id))
+    if purchase_date is not None:
+        pairs.append(("purchase_date", purchase_date))
+    if cost is not None:
+        pairs.append(("cost", cost))
+
+    if not pairs:
+        return  # nothing to update
+
+    set_clause = ", ".join(f"{col}=?" for col, _ in pairs)
+    values = [val for _, val in pairs] + [item_id]
+
+    conn = get_connection(db_path)
+    try:
+        cur = conn.execute(
+            f"UPDATE items SET {set_clause} WHERE id=?", values
+        )
+        conn.commit()
+        if cur.rowcount == 0:
+            raise ValueError(f"Item {item_id} not found")
+    finally:
+        conn.close()
+
+
+def delete_item(db_path: Path, item_id: int) -> None:
+    """Delete an item permanently.
+    Raises ValueError if item_id not found.
+    """
+    conn = get_connection(db_path)
+    try:
+        cur = conn.execute("DELETE FROM items WHERE id=?", (item_id,))
+        conn.commit()
+        if cur.rowcount == 0:
+            raise ValueError(f"Item {item_id} not found")
+    finally:
+        conn.close()
+
+
 def list_items(
     db_path: Path,
     room_id: Optional[int] = None,
