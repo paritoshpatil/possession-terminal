@@ -14,9 +14,9 @@
 
 ### Quick-Add
 
-- [ ] **QADD-01**: User can add an item from a quick-add bar using `/`-separated fields (name / description / room / container / category / purchase date / cost)
-- [ ] **QADD-02**: Quick-add supports partial entries (not all 7 fields required)
-- [ ] **QADD-03**: When quick-add references a non-existent room or container, user is prompted to confirm creation before the item is saved
+- [x] **QADD-01**: User can add an item from a quick-add bar using `/`-separated fields (name / description / room / container / category / purchase date / cost)
+- [x] **QADD-02**: Quick-add supports partial entries (not all 7 fields required)
+- [x] **QADD-03**: When quick-add references a non-existent room or container, user is prompted to confirm creation before the item is saved
 
 ### Navigation
 
@@ -74,9 +74,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NAV-02 | Phase 2 | Complete |
 | NAV-03 | Phase 2 | Complete |
 | NAV-04 | Phase 2 | Complete |
-| QADD-01 | Phase 3 | Pending |
-| QADD-02 | Phase 3 | Pending |
-| QADD-03 | Phase 3 | Pending |
+| QADD-01 | Phase 3 | Complete |
+| QADD-02 | Phase 3 | Complete |
+| QADD-03 | Phase 3 | Complete |
 | ITEM-01 | Phase 3 | Complete |
 | ITEM-02 | Phase 3 | Complete |
 | ITEM-03 | Phase 3 | Complete |

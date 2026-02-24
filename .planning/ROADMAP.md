@@ -78,4 +78,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete    | 2026-02-24 |
 | 2. Browse | 2/3 | Complete    | 2026-02-24 |
-| 3. Manage | 1/4 | In Progress|  |
+| 3. Manage | 2/4 | In Progress|  |
