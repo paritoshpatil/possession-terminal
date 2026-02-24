@@ -5,32 +5,33 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Users can instantly find where any item is stored and know what they own, entirely from the terminal with zero friction.
-**Current focus:** Phase 1 - Foundation (Complete)
+**Current focus:** Phase 2 - Browse (In Progress)
 
 ## Current Position
 
-Phase: 1 of 3 (Foundation)
-Plan: 2 of 2 in current phase (phase complete)
-Status: Phase 1 complete — ready for Phase 2
-Last activity: 2026-02-24 — Completed 01-02: CRUD data model operations, pytest test suite
+Phase: 2 of 3 (Browse)
+Plan: 1 of 3 in current phase (plan 1 complete)
+Status: Phase 2 in progress — 02-01 complete, 02-02 next
+Last activity: 2026-02-24 — Completed 02-01: Textual TUI shell, DataTable item list, VIM keybindings
 
-Progress: [██░░░░░░░░] 20%
+Progress: [███░░░░░░░] 33%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 2.5 min
-- Total execution time: 5 min
+- Total plans completed: 3
+- Average duration: 2.3 min
+- Total execution time: 7 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 - Foundation | 2 | 5 min | 2.5 min |
+| 2 - Browse | 1 | 2 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 3 min, 2 min
+- Last 5 plans: 3 min, 2 min, 2 min
 - Trend: Fast execution, straightforward implementation
 
 *Updated after each plan completion*
@@ -52,6 +53,9 @@ Recent decisions affecting current work:
 - 01-02: Per-call connection pattern (open/operate/commit/close) for all model functions — no shared connection state
 - 01-02: ValueError raised on missing row_id in rename/delete — consistent Python convention for invalid arguments
 - 01-02: list_items always LEFT JOINs room/container/category names — no N+1 query risk in Phase 2 TUI
+- 02-01: db_path passed into PossessionApp constructor and accessed via self.app.db_path in screens — avoids global state
+- 02-01: Textual import deferred inside main() in __main__.py — keeps startup path clean
+- 02-01: gg sequence tracked with _last_key string state in on_key handler — simpler than Textual action sequences, Python 3.9 compatible
 
 ### Pending Todos
 
@@ -64,5 +68,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-24
-Stopped at: Completed 01-02-PLAN.md — CRUD data model operations (14 functions), 15-test pytest suite
+Stopped at: Completed 02-01-PLAN.md — Textual TUI shell, DataTable item list with VIM navigation
 Resume file: None
