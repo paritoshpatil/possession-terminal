@@ -7,10 +7,10 @@
 
 ### Data Model
 
-- [ ] **DATA-01**: User can create, rename, and delete rooms
-- [ ] **DATA-02**: User can create, rename, and delete containers within rooms
-- [ ] **DATA-03**: User can create items with fields: name, description, room, container, category, purchase date, cost
-- [ ] **DATA-04**: User can manage a list of categories (add, rename, delete)
+- [x] **DATA-01**: User can create, rename, and delete rooms
+- [x] **DATA-02**: User can create, rename, and delete containers within rooms
+- [x] **DATA-03**: User can create items with fields: name, description, room, container, category, purchase date, cost
+- [x] **DATA-04**: User can manage a list of categories (add, rename, delete)
 
 ### Quick-Add
 
@@ -64,10 +64,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 1 | Pending |
-| DATA-02 | Phase 1 | Pending |
-| DATA-03 | Phase 1 | Pending |
-| DATA-04 | Phase 1 | Pending |
+| DATA-01 | Phase 1 | Complete |
+| DATA-02 | Phase 1 | Complete |
+| DATA-03 | Phase 1 | Complete |
+| DATA-04 | Phase 1 | Complete |
 | STOR-01 | Phase 1 | Complete (01-01) |
 | STOR-02 | Phase 1 | Complete (01-01) |
 | NAV-01 | Phase 2 | Pending |

@@ -12,7 +12,7 @@ Three phases deliver a working terminal inventory manager. Phase 1 builds the fo
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - SQLite database, schema, and all data model CRUD (rooms, containers, categories, items)
+- [x] **Phase 1: Foundation** - SQLite database, schema, and all data model CRUD (rooms, containers, categories, items) (completed 2026-02-24)
 - [ ] **Phase 2: Browse** - TUI item list with VIM navigation, live filtering, drill-down hierarchy, and breadcrumbs
 - [ ] **Phase 3: Manage** - Quick-add bar, inline edit, delete with confirmation, and move item
 
@@ -65,6 +65,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 1/2 | In progress | - |
+| 1. Foundation | 2/2 | Complete   | 2026-02-24 |
 | 2. Browse | 0/TBD | Not started | - |
 | 3. Manage | 0/TBD | Not started | - |
