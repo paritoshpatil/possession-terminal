@@ -28,7 +28,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Containers can be created, renamed, and deleted within a room
   4. Items can be created with all 7 fields (name, description, room, container, category, purchase date, cost)
   5. Categories can be added, renamed, and deleted
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Python package scaffold, SQLite schema, and DB initialization with configurable path
+- [ ] 01-02-PLAN.md — CRUD operations for rooms, containers, items, and categories with pytest suite
 
 ### Phase 2: Browse
 **Goal**: Users can see their full inventory and navigate it entirely from the keyboard
@@ -61,6 +65,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/2 | Not started | - |
 | 2. Browse | 0/TBD | Not started | - |
 | 3. Manage | 0/TBD | Not started | - |
