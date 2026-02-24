@@ -5,7 +5,7 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Users can instantly find where any item is stored and know what they own, entirely from the terminal with zero friction.
-**Current focus:** Phase 3 - Manage (Complete)
+**Current focus:** Planning next milestone (v1.0 shipped 2026-02-24)
 
 ## Current Position
 
