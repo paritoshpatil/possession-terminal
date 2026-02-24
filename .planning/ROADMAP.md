@@ -61,7 +61,13 @@ Plans:
   3. If a quick-add references a room or container that does not exist, the user is prompted to confirm creation before the item is saved
   4. Pressing `e` on a selected item opens an inline form pre-filled with all current field values; saving updates the item
   5. Pressing `d` on a selected item shows a confirmation prompt; confirming removes the item permanently
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — update_item and delete_item model functions with pytest coverage
+- [ ] 03-02-PLAN.md — QuickAddBar widget with parse logic, QADD-03 confirmation, MainScreen integration
+- [ ] 03-03-PLAN.md — EditItemScreen form (edit + move) and delete confirmation in MainScreen
+- [ ] 03-04-PLAN.md — Human verification checkpoint for all manage features
 
 ## Progress
 
