@@ -41,6 +41,7 @@ class MainScreen(Screen):
         ("k", "cursor_up", "Up"),
         ("G", "cursor_bottom", "Bottom"),
         ("/", "open_filter", "Filter"),
+        ("a", "open_quickadd", "Add"),
         ("q", "go_back", "Back"),
     ]
 
@@ -59,6 +60,7 @@ class MainScreen(Screen):
 
     def compose(self) -> ComposeResult:
         from possession.tui.widgets.breadcrumb import Breadcrumb
+        from possession.tui.widgets.quickadd import QuickAddBar
         yield Breadcrumb(id="breadcrumb")
         yield DataTable(cursor_type="row", show_header=True)
         yield Input(
@@ -66,6 +68,7 @@ class MainScreen(Screen):
             id="filter-input",
             classes="hidden",
         )
+        yield QuickAddBar(id="quickadd-bar", classes="hidden")
 
     def on_mount(self) -> None:
         self._view_mode = "rooms"
@@ -81,6 +84,15 @@ class MainScreen(Screen):
         inp = self.query_one("#filter-input", Input)
         inp.remove_class("hidden")
         inp.focus()
+
+    def action_open_quickadd(self) -> None:
+        """Open the quick-add bar."""
+        from possession.tui.widgets.quickadd import QuickAddBar
+        self.query_one("#quickadd-bar", QuickAddBar).open(self.app.db_path)
+
+    def on_quick_add_bar_item_saved(self, event) -> None:
+        """Reload the DataTable after a quick-add save."""
+        self._load_view()
 
     def on_input_changed(self, event: Input.Changed) -> None:
         """Live-filter the DataTable as the user types."""
