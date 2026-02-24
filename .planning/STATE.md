@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Users can instantly find where any item is stored and know what they own, entirely from the terminal with zero friction.
-**Current focus:** Phase 3 - Manage (In Progress)
+**Current focus:** Phase 3 - Manage (Complete)
 
 ## Current Position
 
 Phase: 3 of 3 (Manage)
-Plan: 2 of 3 in current phase (plans 03-01, 03-02 complete)
-Status: Phase 3 in progress — 03-02 complete, 03-03 next
-Last activity: 2026-02-24 — Completed 03-02: QuickAddBar widget and MainScreen integration
+Plan: 3 of 3 in current phase (plans 03-01, 03-02, 03-03 complete)
+Status: Phase 3 complete — all plans done
+Last activity: 2026-02-24 — Completed 03-03: EditItemScreen and delete confirmation
 
-Progress: [██████░░░░] 67%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 2.8 min
-- Total execution time: 17 min
+- Total plans completed: 7
+- Average duration: 2.9 min
+- Total execution time: 24 min
 
 **By Phase:**
 
@@ -29,10 +29,10 @@ Progress: [██████░░░░] 67%
 |-------|-------|-------|----------|
 | 1 - Foundation | 2 | 5 min | 2.5 min |
 | 2 - Browse | 2 | 6 min | 3 min |
-| 3 - Manage | 2 | 10 min | 5 min |
+| 3 - Manage | 3 | 17 min | 5.7 min |
 
 **Recent Trend:**
-- Last 5 plans: 2 min, 2 min, 4 min, 4 min, 6 min
+- Last 5 plans: 2 min, 4 min, 4 min, 6 min, 7 min
 - Trend: Fast execution, straightforward implementation
 
 *Updated after each plan completion*
@@ -67,6 +67,9 @@ Recent decisions affecting current work:
 - 03-02: QuickAddBar hidden by default via CSS class; open()/close() toggle visibility — matches filter-input pattern
 - 03-02: Stateful confirmation (pending_parsed + confirm_mode) tracks y/n flow inside widget — no subscreen needed
 - 03-02: Category auto-create not triggered on missing category; silently stores NULL (only room and container prompt)
+- 03-03: EditItemScreen resolves room/container/category names to IDs at save time, auto-creating missing entries — user typing a new name creates it without confirmation (edit mode is intentional)
+- 03-03: on_screen_resume() used to reload DataTable on return from edit — covers both save and cancel (harmless extra load on cancel)
+- 03-03: delete-confirm Input widget hidden inline in MainScreen rather than subscreen — consistent with QuickAddBar approach
 
 ### Pending Todos
 
@@ -79,5 +82,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-24
-Stopped at: Completed 03-02-PLAN.md — QuickAddBar widget and MainScreen integration
+Stopped at: Completed 03-03-PLAN.md — EditItemScreen and delete confirmation (Phase 3 complete)
 Resume file: None
