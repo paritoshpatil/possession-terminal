@@ -44,7 +44,12 @@ Plans:
   3. Pressing `/` opens a live filter bar — typing narrows the item list in real time, `Escape` clears it
   4. Pressing `Enter` on a room drills into its containers; pressing `Enter` on a container shows its items; pressing `q` goes back one level
   5. A breadcrumb trail at the top reflects the current drill-down location (e.g. `Garage > Tool Cabinet`)
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — TUI app shell, DataTable with VIM navigation (NAV-01)
+- [ ] 02-02-PLAN.md — Live filter bar, drill-down hierarchy, breadcrumb widget (NAV-02, NAV-03, NAV-04)
+- [ ] 02-03-PLAN.md — Human verification checkpoint for end-to-end browse experience
 
 ### Phase 3: Manage
 **Goal**: Users can add, edit, delete, and move items entirely from the keyboard with minimal friction
