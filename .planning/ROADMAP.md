@@ -37,7 +37,11 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
   4. A persistent top bar reading "Possession" is visible at all times
   5. Quick-add bar shows field-order label (e.g. `name / description / room / container / category / date / cost`) that remains visible while typing
   6. Running with `--transparent` flag renders the app with transparent background; default launch uses Textual surface theme
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Remove drill-down state machine, add flat list and Possession top bar (VIEW-01, TOPBAR-01)
+- [ ] 04-02-PLAN.md — Add splash screen, transparent flag, and QuickAddBar format label (SPSH-01, THEME-01, QADD-04)
 
 ### Phase 5: Data Surface — Stats Bar + Detail Panel
 
