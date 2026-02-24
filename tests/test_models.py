@@ -5,7 +5,7 @@ from possession.models import (
     create_room, rename_room, delete_room, list_rooms,
     create_container, rename_container, delete_container, list_containers,
     create_category, rename_category, delete_category, list_categories,
-    create_item, list_items,
+    create_item, list_items, update_item, delete_item,
 )
 
 
@@ -154,3 +154,52 @@ def test_list_items_filtered_by_room(db_path):
     result = list_items(db_path, room_id=rid1)
     assert len(result) == 1
     assert result[0]["name"] == "Pillow"
+
+
+# ---------------------------------------------------------------------------
+# update_item tests
+# ---------------------------------------------------------------------------
+
+def test_update_item_name(db_path):
+    iid = create_item(db_path, "OldName")
+    update_item(db_path, iid, name="NewName")
+    items = list_items(db_path)
+    assert items[0]["name"] == "NewName"
+
+
+def test_update_item_partial(db_path):
+    iid = create_item(db_path, "Widget")
+    update_item(db_path, iid, description="A fine widget")
+    items = list_items(db_path)
+    assert items[0]["name"] == "Widget"
+    assert items[0]["description"] == "A fine widget"
+
+
+def test_update_item_clear_room(db_path):
+    rid = create_room(db_path, "Garage")
+    iid = create_item(db_path, "Wrench", room_id=rid)
+    # Explicitly clear room_id by passing None
+    update_item(db_path, iid, room_id=None)
+    items = list_items(db_path)
+    assert items[0]["room_id"] is None
+    assert items[0]["room_name"] is None
+
+
+def test_update_item_not_found(db_path):
+    with pytest.raises(ValueError):
+        update_item(db_path, 9999, name="Ghost")
+
+
+# ---------------------------------------------------------------------------
+# delete_item tests
+# ---------------------------------------------------------------------------
+
+def test_delete_item(db_path):
+    iid = create_item(db_path, "Disposable")
+    delete_item(db_path, iid)
+    assert list_items(db_path) == []
+
+
+def test_delete_item_not_found(db_path):
+    with pytest.raises(ValueError):
+        delete_item(db_path, 9999)
