@@ -7,7 +7,7 @@
 
 ### Navigation
 
-- [ ] **VIEW-01**: Main screen shows a flat list of all items by default — no drill-down required to see inventory
+- [x] **VIEW-01**: Main screen shows a flat list of all items by default — no drill-down required to see inventory
 
 ### Filtering
 
@@ -18,7 +18,7 @@
 ### Interface
 
 - [ ] **SPSH-01**: App shows a splash screen with ASCII art ("POSSESSION") on launch; any key dismisses it
-- [ ] **TOPBAR-01**: A persistent top bar displays the app name "Possession" at all times
+- [x] **TOPBAR-01**: A persistent top bar displays the app name "Possession" at all times
 - [ ] **STAT-01**: A stats bar shows live counts — items (filtered/total), rooms, containers, and total inventory value
 - [ ] **PANEL-01**: Pressing Enter on an item opens a detail panel showing all item fields
 
@@ -70,8 +70,8 @@ Phases follow on from v1.0 (Phases 1–3 complete). v1.1 adds Phases 4–6.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| VIEW-01 | Phase 4 | Pending |
-| TOPBAR-01 | Phase 4 | Pending |
+| VIEW-01 | Phase 4 | Complete (04-01) |
+| TOPBAR-01 | Phase 4 | Complete (04-01) |
 | THEME-01 | Phase 4 | Pending |
 | QADD-04 | Phase 4 | Pending |
 | SPSH-01 | Phase 4 | Pending |
@@ -88,4 +88,4 @@ Phases follow on from v1.0 (Phases 1–3 complete). v1.1 adds Phases 4–6.
 
 ---
 *Requirements defined: 2026-02-24*
-*Last updated: 2026-02-24 after v1.1 milestone research*
+*Last updated: 2026-02-25 after 04-01 execution (VIEW-01, TOPBAR-01 complete)*

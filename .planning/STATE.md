@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Users can instantly find where any item is stored and know what they own, entirely from the terminal with zero friction.
-**Current focus:** Milestone v1.1 UI Overhaul — Phase 4 ready to plan
+**Current focus:** Milestone v1.1 UI Overhaul — Phase 4 in progress (1/2 plans complete)
 
 ## Current Position
 
-Phase: Phase 4 (not started)
-Plan: —
-Status: Requirements and roadmap defined — ready to plan Phase 4
-Last activity: 2026-02-24 — v1.1 requirements and roadmap committed
+Phase: Phase 4 — Foundation Flat List + Visual Chrome (1/2 plans complete)
+Plan: 04-01 complete, 04-02 up next
+Status: 04-01 executed and verified — flat-list MainScreen (VIEW-01, TOPBAR-01) confirmed working
+Last activity: 2026-02-25 — 04-01 plan executed, human-verified, summarized
 
-Progress: [██████████] 100%
+Progress: [░░░░░░░░░░] Phase 4: 1/2 plans
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
+- Total plans completed: 8
 - Average duration: 2.9 min
-- Total execution time: 24 min
+- Total execution time: ~29 min
 
 **By Phase:**
 
@@ -30,9 +30,10 @@ Progress: [██████████] 100%
 | 1 - Foundation | 2 | 5 min | 2.5 min |
 | 2 - Browse | 2 | 6 min | 3 min |
 | 3 - Manage | 3 | 17 min | 5.7 min |
+| 4 - Flat List + Visual Chrome | 1 (of 2) | ~5 min | ~5 min |
 
 **Recent Trend:**
-- Last 5 plans: 2 min, 4 min, 4 min, 6 min, 7 min
+- Last 5 plans: 4 min, 4 min, 6 min, 7 min, 5 min
 - Trend: Fast execution, straightforward implementation
 
 *Updated after each plan completion*
@@ -70,6 +71,11 @@ Recent decisions affecting current work:
 - 03-03: EditItemScreen resolves room/container/category names to IDs at save time, auto-creating missing entries — user typing a new name creates it without confirmation (edit mode is intentional)
 - 03-03: on_screen_resume() used to reload DataTable on return from edit — covers both save and cancel (harmless extra load on cancel)
 - 03-03: delete-confirm Input widget hidden inline in MainScreen rather than subscreen — consistent with QuickAddBar approach
+- 04-01: _view_mode and all associated room/container cursor variables removed — flat list needs no location state
+- 04-01: Static("Possession", id="topbar") docked at top with height=1 — always visible regardless of DataTable scroll
+- 04-01: on_data_table_row_selected() is a no-op in Phase 4; Phase 5 will wire detail panel
+- 04-01: action_go_back() reduced to self.app.exit() — no drill-down stack to pop
+- 04-01: _apply_filter() now items-only (no three-way branch) — Phase 6 pickers will add filter parameters, not branches
 
 ### Pending Todos
 
@@ -81,6 +87,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-24
-Stopped at: Defined v1.1 requirements (10 REQ-IDs) and roadmap (Phases 4–6) — ready for /gsd:plan-phase 4
+Last session: 2026-02-25
+Stopped at: Completed 04-01 (flat-list MainScreen, VIEW-01 + TOPBAR-01) — ready for 04-02 (splash screen, transparent flag, QuickAddBar label)
 Resume file: None
