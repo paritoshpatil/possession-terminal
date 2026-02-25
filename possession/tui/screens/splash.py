@@ -29,4 +29,5 @@ class SplashScreen(Screen):
         yield Static(SPLASH_ART, id="splash-art")
 
     def on_key(self, event: events.Key) -> None:
-        self.app.pop_screen()
+        from possession.tui.screens.main import MainScreen
+        self.app.switch_screen(MainScreen())

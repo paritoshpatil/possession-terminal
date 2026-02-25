@@ -27,7 +27,5 @@ class PossessionApp(App):
         self.CSS = self._CSS_TRANSPARENT if transparent else self._CSS_DEFAULT
 
     def on_mount(self) -> None:
-        from possession.tui.screens.main import MainScreen
         from possession.tui.screens.splash import SplashScreen
-        self.push_screen(MainScreen())   # bottom of stack — loads in background
-        self.push_screen(SplashScreen()) # top of stack — shown on launch
+        self.push_screen(SplashScreen())  # only splash on launch; MainScreen pushed on dismiss
