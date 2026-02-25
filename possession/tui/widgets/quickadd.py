@@ -83,6 +83,18 @@ class QuickAddBar(Widget):
         color: $text-muted;
         padding: 0 1;
     }
+    #quickadd-input {
+        height: 1;
+        border: none;
+        padding: 0 1;
+        background: $surface-darken-1;
+    }
+    #quickadd-confirm {
+        height: 1;
+        border: none;
+        padding: 0 1;
+        background: $surface-darken-1;
+    }
     """
 
     class ItemSaved(Message):
