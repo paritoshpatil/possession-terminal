@@ -4,7 +4,7 @@ from typing import Optional
 from textual.app import ComposeResult
 from textual.message import Message
 from textual.widget import Widget
-from textual.widgets import Input
+from textual.widgets import Input, Static
 
 from possession.models import (
     create_item,
@@ -14,6 +14,8 @@ from possession.models import (
     list_containers,
     list_categories,
 )
+
+QUICKADD_FORMAT_HINT = "name / description / room / container / category / date / cost"
 
 
 def _parse_quickadd(text: str) -> Optional[dict]:
@@ -70,11 +72,16 @@ class QuickAddBar(Widget):
 
     DEFAULT_CSS = """
     QuickAddBar {
-        height: auto;
+        height: 2;
         dock: bottom;
     }
     QuickAddBar.hidden {
         display: none;
+    }
+    #quickadd-label {
+        height: 1;
+        color: $text-muted;
+        padding: 0 1;
     }
     """
 
@@ -92,8 +99,9 @@ class QuickAddBar(Widget):
         self._confirm_mode: str = ""  # "room" or "container"
 
     def compose(self) -> ComposeResult:
+        yield Static(QUICKADD_FORMAT_HINT, id="quickadd-label")
         yield Input(
-            placeholder="name / description / room / container / category / purchase_date / cost",
+            placeholder="",
             id="quickadd-input",
         )
         yield Input(
