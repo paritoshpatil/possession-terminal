@@ -53,7 +53,11 @@ Plans:
   2. Pressing Enter on a row opens a detail panel showing all fields for that item
   3. The DataTable and detail panel coexist in a side-by-side layout; `j`/`k` navigation continues to work with panel visible
   4. Closing the detail panel (Escape) returns focus to DataTable without cursor reset
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Add get_stats() aggregate query, StatsBar widget, and DetailPanel widget (STAT-01, PANEL-01)
+- [ ] 05-02-PLAN.md — Wire StatsBar and DetailPanel into MainScreen with live updates and toggle behavior (STAT-01, PANEL-01)
 
 ### Phase 6: Keyboard UX — Filter Pickers
 
@@ -77,6 +81,6 @@ Plans:
 | 1. Foundation | v1.0 | 2/2 | Complete | 2026-02-24 |
 | 2. Browse | v1.0 | 3/3 | Complete | 2026-02-24 |
 | 3. Manage | v1.0 | 4/4 | Complete | 2026-02-24 |
-| 4. Foundation — Flat List + Visual Chrome | v1.1 | 1/2 | In progress | - |
+| 4. Foundation — Flat List + Visual Chrome | v1.1 | 2/2 | Complete | 2026-02-27 |
 | 5. Data Surface — Stats Bar + Detail Panel | v1.1 | 0/2 | Not started | - |
 | 6. Keyboard UX — Filter Pickers | v1.1 | 0/2 | Not started | - |
