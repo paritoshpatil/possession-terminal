@@ -21,7 +21,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 <details open>
 <summary>🚧 v1.1 UI Overhaul (Phases 4-6) — IN PROGRESS</summary>
 
-- [ ] **Phase 4: Foundation — Flat List + Visual Chrome** - Remove drill-down, add flat list, top bar, splash screen, transparent theme, and corrected quick-add label (1/2 plans complete)
+- [x] **Phase 4: Foundation — Flat List + Visual Chrome** - Remove drill-down, add flat list, top bar, splash screen, transparent theme, and corrected quick-add label (2/2 plans complete)
 - [ ] **Phase 5: Data Surface — Stats Bar + Detail Panel** - Enrich the flat list with live aggregate stats and a per-item detail panel
 - [ ] **Phase 6: Keyboard UX — Filter Pickers** - VIM-style modal pickers to narrow the flat list by Room, Container, or Category
 
@@ -41,7 +41,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 Plans:
 - [x] 04-01-PLAN.md — Remove drill-down state machine, add flat list and Possession top bar (VIEW-01, TOPBAR-01)
-- [ ] 04-02-PLAN.md — Add splash screen, transparent flag, and QuickAddBar format label (SPSH-01, THEME-01, QADD-04)
+- [x] 04-02-PLAN.md — Add splash screen, transparent flag, and QuickAddBar format label (SPSH-01, THEME-01, QADD-04)
 
 ### Phase 5: Data Surface — Stats Bar + Detail Panel
 

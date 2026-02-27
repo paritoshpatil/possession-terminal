@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Users can instantly find where any item is stored and know what they own, entirely from the terminal with zero friction.
-**Current focus:** Milestone v1.1 UI Overhaul — Phase 4 in progress (1/2 plans complete)
+**Current focus:** Milestone v1.1 UI Overhaul — Phase 4 COMPLETE (2/2 plans complete)
 
 ## Current Position
 
-Phase: Phase 4 — Foundation Flat List + Visual Chrome (1/2 plans complete)
-Plan: 04-01 complete, 04-02 up next
-Status: 04-01 executed and verified — flat-list MainScreen (VIEW-01, TOPBAR-01) confirmed working
-Last activity: 2026-02-25 — 04-01 plan executed, human-verified, summarized
+Phase: Phase 4 — Foundation Flat List + Visual Chrome (2/2 plans complete — PHASE COMPLETE)
+Plan: 04-02 complete — all Phase 4 requirements met (VIEW-01, TOPBAR-01, SPSH-01, THEME-01, QADD-04)
+Status: Phase 4 executed and human-verified — ready for Phase 5 (detail panel)
+Last activity: 2026-02-27 — 04-02 plan executed, human-verified, summarized
 
-Progress: [░░░░░░░░░░] Phase 4: 1/2 plans
+Progress: [##########] Phase 4: 2/2 plans
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: 2.9 min
-- Total execution time: ~29 min
+- Total plans completed: 9
+- Average duration: 3.0 min
+- Total execution time: ~35 min
 
 **By Phase:**
 
@@ -30,7 +30,7 @@ Progress: [░░░░░░░░░░] Phase 4: 1/2 plans
 | 1 - Foundation | 2 | 5 min | 2.5 min |
 | 2 - Browse | 2 | 6 min | 3 min |
 | 3 - Manage | 3 | 17 min | 5.7 min |
-| 4 - Flat List + Visual Chrome | 1 (of 2) | ~5 min | ~5 min |
+| 4 - Flat List + Visual Chrome | 2 | ~11 min | ~5.5 min |
 
 **Recent Trend:**
 - Last 5 plans: 4 min, 4 min, 6 min, 7 min, 5 min
@@ -76,6 +76,9 @@ Recent decisions affecting current work:
 - 04-01: on_data_table_row_selected() is a no-op in Phase 4; Phase 5 will wire detail panel
 - 04-01: action_go_back() reduced to self.app.exit() — no drill-down stack to pop
 - 04-01: _apply_filter() now items-only (no three-way branch) — Phase 6 pickers will add filter parameters, not branches
+- 04-02: switch_screen(MainScreen()) used in SplashScreen instead of pop_screen() — prevents DataTable rendering behind transparent splash background
+- 04-02: self.CSS instance override (after super().__init__()) selects transparent vs default CSS — simpler than CSS class toggling
+- 04-02: Input border removed (border: none, height: 1) to fit label + input within QuickAddBar height: 2
 
 ### Pending Todos
 
@@ -87,6 +90,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-25
-Stopped at: Completed 04-01 (flat-list MainScreen, VIEW-01 + TOPBAR-01) — ready for 04-02 (splash screen, transparent flag, QuickAddBar label)
+Last session: 2026-02-27
+Stopped at: Completed 04-02 (SplashScreen, transparent flag, QuickAddBar label — SPSH-01, THEME-01, QADD-04) — Phase 4 complete, ready for Phase 5 (detail panel)
 Resume file: None

@@ -17,18 +17,18 @@
 
 ### Interface
 
-- [ ] **SPSH-01**: App shows a splash screen with ASCII art ("POSSESSION") on launch; any key dismisses it
+- [x] **SPSH-01**: App shows a splash screen with ASCII art ("POSSESSION") on launch; any key dismisses it
 - [x] **TOPBAR-01**: A persistent top bar displays the app name "Possession" at all times
 - [ ] **STAT-01**: A stats bar shows live counts — items (filtered/total), rooms, containers, and total inventory value
 - [ ] **PANEL-01**: Pressing Enter on an item opens a detail panel showing all item fields
 
 ### Theming
 
-- [ ] **THEME-01**: App supports terminal-native colors via `--transparent` flag (transparent background + terminal foreground); default remains Textual surface theme
+- [x] **THEME-01**: App supports terminal-native colors via `--transparent` flag (transparent background + terminal foreground); default remains Textual surface theme
 
 ### Quick-Add
 
-- [ ] **QADD-04**: Quick-add bar shows a persistent format label (field order hint) that remains visible while the user types
+- [x] **QADD-04**: Quick-add bar shows a persistent format label (field order hint) that remains visible while the user types
 
 ## v2 Requirements
 
@@ -72,9 +72,9 @@ Phases follow on from v1.0 (Phases 1–3 complete). v1.1 adds Phases 4–6.
 |-------------|-------|--------|
 | VIEW-01 | Phase 4 | Complete (04-01) |
 | TOPBAR-01 | Phase 4 | Complete (04-01) |
-| THEME-01 | Phase 4 | Pending |
-| QADD-04 | Phase 4 | Pending |
-| SPSH-01 | Phase 4 | Pending |
+| THEME-01 | Phase 4 | Complete |
+| QADD-04 | Phase 4 | Complete |
+| SPSH-01 | Phase 4 | Complete |
 | STAT-01 | Phase 5 | Pending |
 | PANEL-01 | Phase 5 | Pending |
 | FILT-01 | Phase 6 | Pending |
