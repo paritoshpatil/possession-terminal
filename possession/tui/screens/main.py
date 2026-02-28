@@ -2,10 +2,13 @@ from typing import List, Optional
 
 from textual import events
 from textual.app import ComposeResult
+from textual.containers import Horizontal
 from textual.screen import Screen
 from textual.widgets import DataTable, Input, Static
 
 from possession.models import list_items, delete_item
+from possession.tui.widgets.statsbar import StatsBar
+from possession.tui.widgets.detailpanel import DetailPanel
 
 
 def _fmt_location(row: dict) -> str:
@@ -31,9 +34,6 @@ class MainScreen(Screen):
     .hidden {
         display: none;
     }
-    DataTable {
-        height: 1fr;
-    }
     #topbar {
         dock: top;
         height: 1;
@@ -41,6 +41,18 @@ class MainScreen(Screen):
         color: $text;
         padding: 0 1;
         text-style: bold;
+    }
+    #main-body {
+        height: 1fr;
+    }
+    DataTable {
+        width: 7fr;
+        height: 1fr;
+    }
+    #detail-panel {
+        width: 3fr;
+        height: 1fr;
+        border-left: solid $primary-darken-2;
     }
     """
 
@@ -65,7 +77,10 @@ class MainScreen(Screen):
     def compose(self) -> ComposeResult:
         from possession.tui.widgets.quickadd import QuickAddBar
         yield Static("Possession", id="topbar")
-        yield DataTable(cursor_type="row", show_header=True)
+        yield StatsBar(id="stats-bar")
+        with Horizontal(id="main-body"):
+            yield DataTable(cursor_type="row", show_header=True)
+            yield DetailPanel(id="detail-panel", classes="hidden")
         yield Input(
             placeholder="Filter... (/ to open, Esc to clear)",
             id="filter-input",
@@ -85,8 +100,12 @@ class MainScreen(Screen):
     # Data loading
     # ------------------------------------------------------------------
 
+    def _refresh_stats(self) -> None:
+        """Update stats bar with current DB counts."""
+        self.query_one(StatsBar).refresh_stats(self.app.db_path)
+
     def _load_items(self) -> None:
-        """Load all items and refresh the DataTable. No drill-down branches."""
+        """Load all items and refresh the DataTable and stats bar."""
         table = self.query_one(DataTable)
         try:
             table.clear(columns=True)
@@ -95,6 +114,7 @@ class MainScreen(Screen):
         table.add_columns("Name", "Description", "Location", "Category", "Cost")
         self._items = list_items(self.app.db_path)
         self._apply_filter(self._filter_text)
+        self._refresh_stats()  # Always refresh stats after loading items
 
     # ------------------------------------------------------------------
     # Filter bar
@@ -196,8 +216,38 @@ class MainScreen(Screen):
             )
 
     def on_data_table_row_selected(self, event: DataTable.RowSelected) -> None:
-        """Enter on a row is a no-op in Phase 4 (Phase 5 will wire detail panel)."""
-        return
+        """Enter toggles the detail panel open/closed."""
+        panel = self.query_one("#detail-panel", DetailPanel)
+        panel.display = not panel.display
+        if panel.display:
+            # Panel just opened — populate with current row
+            row_key_str = event.row_key.value if event.row_key else None
+            if row_key_str:
+                item = next(
+                    (i for i in self._items if str(i["id"]) == row_key_str),
+                    None,
+                )
+                if item:
+                    panel.show_item(item)
+        self.query_one(DataTable).focus()
+
+    def on_data_table_row_highlighted(
+        self, event: DataTable.RowHighlighted
+    ) -> None:
+        """Update detail panel live as cursor moves (only when panel is open)."""
+        panel = self.query_one("#detail-panel", DetailPanel)
+        if not panel.display:
+            return
+        if not self._items:
+            return
+        row_key_str = event.row_key.value if event.row_key else None
+        if row_key_str is None:
+            return
+        item = next(
+            (i for i in self._items if str(i["id"]) == row_key_str), None
+        )
+        if item is not None:
+            panel.show_item(item)
 
     def action_go_back(self) -> None:
         self.app.exit()
@@ -207,8 +257,16 @@ class MainScreen(Screen):
     # ------------------------------------------------------------------
 
     def on_key(self, event: events.Key) -> None:
-        """Handle multi-key sequences and filter bar escape."""
+        """Handle escape hierarchy: panel > delete-confirm > filter > (app exit via binding)."""
         if event.key == "escape":
+            # 1. Panel takes priority
+            panel = self.query_one("#detail-panel", DetailPanel)
+            if panel.display:
+                panel.display = False
+                self.query_one(DataTable).focus()
+                event.prevent_default()
+                return
+            # 2. Delete confirm (existing)
             del_inp = self.query_one("#delete-confirm", Input)
             if not del_inp.has_class("hidden"):
                 del_inp.value = ""
@@ -217,6 +275,7 @@ class MainScreen(Screen):
                 self.query_one(DataTable).focus()
                 event.prevent_default()
                 return
+            # 3. Filter input (existing)
             inp = self.query_one("#filter-input", Input)
             if not inp.has_class("hidden"):
                 inp.value = ""
@@ -225,6 +284,7 @@ class MainScreen(Screen):
                 self._apply_filter("")
                 event.prevent_default()
                 return
+            # 4. Nothing open -> fall through (action_go_back binding handles exit)
         if event.key == "g":
             if self._last_key == "g":
                 self._last_key = ""
