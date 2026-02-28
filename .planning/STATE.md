@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Users can instantly find where any item is stored and know what they own, entirely from the terminal with zero friction.
-**Current focus:** Milestone v1.1 UI Overhaul — Phase 6 IN PROGRESS (1/4 plans complete)
+**Current focus:** Milestone v1.1 UI Overhaul — Phase 6 IN PROGRESS (2/4 plans complete)
 
 ## Current Position
 
-Phase: Phase 6 — Keyboard UX: Filter Pickers (1/4 plans complete)
-Plan: 06-01 complete — FilterPickerScreen(ModalScreen) reusable VIM-style picker modal (FILT-01, FILT-02, FILT-03)
-Status: Phase 6 plan 01 complete — ready for plan 02 (MainScreen wiring)
-Last activity: 2026-02-28 — 06-01 plan executed
+Phase: Phase 6 — Keyboard UX: Filter Pickers (2/4 plans complete)
+Plan: 06-02 complete — r/c/t bindings wired in MainScreen, filter state, StatsBar filter tags (FILT-01, FILT-02, FILT-03)
+Status: Phase 6 plan 02 complete — awaiting human-verify checkpoint (Task 3) before plan 03
+Last activity: 2026-02-28 — 06-02 plan executed
 
-Progress: [##########] Phase 6: 1/4 plans
+Progress: [####################] Phase 6: 2/4 plans
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: ~4.7 min
-- Total execution time: ~52 min
+- Total plans completed: 12
+- Average duration: ~4.6 min
+- Total execution time: ~54 min
 
 **By Phase:**
 
@@ -32,9 +32,10 @@ Progress: [##########] Phase 6: 1/4 plans
 | 3 - Manage | 3 | 17 min | 5.7 min |
 | 4 - Flat List + Visual Chrome | 2 | ~11 min | ~5.5 min |
 | 5 - Data Surface | 2 | ~16 min | ~8 min |
+| 6 - Filter Pickers (in progress) | 2 | ~3 min | ~1.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 4 min, 4 min, 6 min, 7 min, 1 min
+- Last 5 plans: 4 min, 6 min, 7 min, 1 min, 2 min
 - Trend: Fast execution, straightforward implementation
 
 *Updated after each plan completion*
@@ -89,6 +90,10 @@ Recent decisions affecting current work:
 - 06-01: Focus stays on Input always; j/k call lv.action_cursor_down/up programmatically — avoids key-in-search pitfall
 - 06-01: Active filter floats to top with checkmark in _rebuild_list(); empty-state rows not added to self._filtered (Enter is a no-op)
 - 06-01: ModalScreen + dismiss(result) + push_screen(screen, callback) established as picker contract for Phase 6
+- 06-02: StatsBar.refresh_stats() takes item_count_override (Optional[int]) — caller controls displayed count without re-querying DB
+- 06-02: filter_tags is a pre-formatted string built by _build_filter_tags() — keeps refresh_stats() signature simple
+- 06-02: _any_input_active() guard centralizes check for open text overlays before picker actions open
+- 06-02: Empty-state sentinel row key="__empty__" — not a valid item ID, so detail panel/edit/delete handlers no-op on it naturally
 
 ### Pending Todos
 
@@ -101,5 +106,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-28
-Stopped at: Completed 06-01 (FilterPickerScreen modal — FILT-01, FILT-02, FILT-03) — Phase 6 plan 01 complete, ready for plan 02
+Stopped at: Completed 06-02 (r/c/t filter picker wiring — FILT-01, FILT-02, FILT-03) — awaiting human-verify checkpoint (Task 3)
 Resume file: None

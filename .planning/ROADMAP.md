@@ -23,7 +23,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 - [x] **Phase 4: Foundation — Flat List + Visual Chrome** - Remove drill-down, add flat list, top bar, splash screen, transparent theme, and corrected quick-add label (2/2 plans complete)
 - [ ] **Phase 5: Data Surface — Stats Bar + Detail Panel** - Enrich the flat list with live aggregate stats and a per-item detail panel
-- [ ] **Phase 6: Keyboard UX — Filter Pickers** - VIM-style modal pickers to narrow the flat list by Room, Container, or Category
+- [x] **Phase 6: Keyboard UX — Filter Pickers** - VIM-style modal pickers to narrow the flat list by Room, Container, or Category (completed 2026-02-28)
 
 ### Phase 4: Foundation — Flat List + Visual Chrome
 
@@ -87,4 +87,4 @@ Plans:
 | 3. Manage | v1.0 | 4/4 | Complete | 2026-02-24 |
 | 4. Foundation — Flat List + Visual Chrome | v1.1 | 2/2 | Complete | 2026-02-27 |
 | 5. Data Surface — Stats Bar + Detail Panel | 1/2 | In Progress|  | - |
-| 6. Keyboard UX — Filter Pickers | 1/2 | In Progress|  | - |
+| 6. Keyboard UX — Filter Pickers | 2/2 | Complete   | 2026-02-28 | - |
