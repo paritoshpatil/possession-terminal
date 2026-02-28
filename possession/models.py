@@ -305,6 +305,26 @@ def delete_item(db_path: Path, item_id: int) -> None:
         conn.close()
 
 
+def get_stats(db_path: Path) -> dict:
+    """Return aggregate inventory stats in a single query.
+    Returns dict with keys: item_count, room_count, container_count, total_value.
+    """
+    conn = get_connection(db_path)
+    conn.row_factory = sqlite3.Row
+    try:
+        row = conn.execute(
+            "SELECT"
+            "  COUNT(*) AS item_count,"
+            "  COUNT(DISTINCT room_id) AS room_count,"
+            "  COUNT(DISTINCT container_id) AS container_count,"
+            "  COALESCE(SUM(cost), 0.0) AS total_value"
+            " FROM items"
+        ).fetchone()
+        return dict(row)
+    finally:
+        conn.close()
+
+
 def list_items(
     db_path: Path,
     room_id: Optional[int] = None,
