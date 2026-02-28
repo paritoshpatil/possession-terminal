@@ -8,11 +8,25 @@ class PossessionApp(App):
     TITLE = "Possession"
 
     _CSS_DEFAULT = """
+    $primary: #ffcc00;
+    $primary-darken-2: #b38f00;
+    $surface: #101010;
+    $surface-darken-1: #181818;
+    $text: #f5f5f5;
+    $text-muted: #888888;
+
     Screen {
         background: $surface;
     }
     """
     _CSS_TRANSPARENT = """
+    $primary: #ffcc00;
+    $primary-darken-2: #b38f00;
+    $surface: #101010;
+    $surface-darken-1: #181818;
+    $text: #f5f5f5;
+    $text-muted: #888888;
+
     Screen {
         background: transparent;
     }
