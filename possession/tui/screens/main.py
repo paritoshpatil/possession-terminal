@@ -41,6 +41,8 @@ class MainScreen(Screen):
         color: $text;
         padding: 0 1;
         text-style: bold;
+        text-align: center;
+        margin-bottom: 1;
     }
     #main-body {
         height: 1fr;
@@ -48,6 +50,12 @@ class MainScreen(Screen):
     DataTable {
         width: 7fr;
         height: 1fr;
+        background: $surface;
+        color: $text;
+    }
+    DataTable > .datatable--header {
+        background: $primary;
+        color: $surface;
     }
     #detail-panel {
         width: 3fr;
@@ -61,6 +69,9 @@ class MainScreen(Screen):
         ("k", "cursor_up", "Up"),
         ("G", "cursor_bottom", "Bottom"),
         ("/", "open_filter", "Filter"),
+        ("r", "open_room_picker", "Room"),
+        ("c", "open_container_picker", "Container"),
+        ("t", "open_category_picker", "Category"),
         ("a", "open_quickadd", "Add"),
         ("e", "edit_item", "Edit"),
         ("d", "delete_item", "Delete"),
@@ -73,6 +84,12 @@ class MainScreen(Screen):
         self._last_key: str = ""
         self._delete_pending_id: Optional[int] = None
         self._filter_text: str = ""
+        self._filter_room_id: Optional[int] = None
+        self._filter_room_name: Optional[str] = None
+        self._filter_container_id: Optional[int] = None
+        self._filter_container_name: Optional[str] = None
+        self._filter_category_id: Optional[int] = None
+        self._filter_category_name: Optional[str] = None
 
     def compose(self) -> ComposeResult:
         from possession.tui.widgets.quickadd import QuickAddBar
@@ -101,20 +118,61 @@ class MainScreen(Screen):
     # ------------------------------------------------------------------
 
     def _refresh_stats(self) -> None:
-        """Update stats bar with current DB counts."""
-        self.query_one(StatsBar).refresh_stats(self.app.db_path)
+        """Update stats bar with current DB counts, filtered count, and active filter tags."""
+        tags = self._build_filter_tags()
+        self.query_one(StatsBar).refresh_stats(
+            self.app.db_path,
+            item_count_override=len(self._items),
+            filter_tags=tags,
+        )
 
     def _load_items(self) -> None:
-        """Load all items and refresh the DataTable and stats bar."""
+        """Load items (with active filters) and refresh the DataTable and stats bar."""
         table = self.query_one(DataTable)
         try:
             table.clear(columns=True)
         except TypeError:
             table.clear()
         table.add_columns("Name", "Description", "Location", "Category", "Cost")
-        self._items = list_items(self.app.db_path)
+        self._items = list_items(
+            self.app.db_path,
+            room_id=self._filter_room_id,
+            container_id=self._filter_container_id,
+            category_id=self._filter_category_id,
+        )
         self._apply_filter(self._filter_text)
         self._refresh_stats()  # Always refresh stats after loading items
+
+    def _build_filter_tags(self) -> str:
+        """Build a string of active filter tags for display in the stats bar."""
+        parts = []
+        if self._filter_room_id is not None and self._filter_room_name:
+            parts.append(f"[Room: {self._filter_room_name}]")
+        if self._filter_container_id is not None and self._filter_container_name:
+            parts.append(f"[Container: {self._filter_container_name}]")
+        if self._filter_category_id is not None and self._filter_category_name:
+            parts.append(f"[Category: {self._filter_category_name}]")
+        return " ".join(parts)
+
+    def _any_filter_active(self) -> bool:
+        """Return True if any picker filter (room/container/category) is active."""
+        return any([
+            self._filter_room_id is not None,
+            self._filter_container_id is not None,
+            self._filter_category_id is not None,
+        ])
+
+    def _any_input_active(self) -> bool:
+        """Return True if any text input overlay (filter, quickadd, delete-confirm) is open."""
+        from possession.tui.widgets.quickadd import QuickAddBar
+        filter_inp = self.query_one("#filter-input", Input)
+        del_inp = self.query_one("#delete-confirm", Input)
+        quickadd = self.query_one("#quickadd-bar", QuickAddBar)
+        return (
+            not filter_inp.has_class("hidden")
+            or not del_inp.has_class("hidden")
+            or not quickadd.has_class("hidden")
+        )
 
     # ------------------------------------------------------------------
     # Filter bar
@@ -214,6 +272,87 @@ class MainScreen(Screen):
                 _fmt_cost(item.get("cost")),
                 key=str(item["id"]),
             )
+        if table.row_count == 0 and self._any_filter_active():
+            table.add_row(
+                "No items match the current filters", "", "", "", "",
+                key="__empty__",
+            )
+
+    # ------------------------------------------------------------------
+    # Picker actions (r / c / t)
+    # ------------------------------------------------------------------
+
+    def action_open_room_picker(self) -> None:
+        """Open the Room filter picker modal."""
+        if self._any_input_active():
+            return
+        from possession.models import list_rooms
+        from possession.tui.screens.filter_picker import FilterPickerScreen
+        rooms = list_rooms(self.app.db_path)
+        self.app.push_screen(
+            FilterPickerScreen("Room", rooms, self._filter_room_id),
+            self._on_room_picked,
+        )
+
+    def action_open_container_picker(self) -> None:
+        """Open the Container filter picker modal."""
+        if self._any_input_active():
+            return
+        from possession.models import list_containers
+        from possession.tui.screens.filter_picker import FilterPickerScreen
+        containers = list_containers(self.app.db_path)
+        self.app.push_screen(
+            FilterPickerScreen("Container", containers, self._filter_container_id),
+            self._on_container_picked,
+        )
+
+    def action_open_category_picker(self) -> None:
+        """Open the Category filter picker modal."""
+        if self._any_input_active():
+            return
+        from possession.models import list_categories
+        from possession.tui.screens.filter_picker import FilterPickerScreen
+        categories = list_categories(self.app.db_path)
+        self.app.push_screen(
+            FilterPickerScreen("Category", categories, self._filter_category_id),
+            self._on_category_picked,
+        )
+
+    def _on_room_picked(self, result: Optional[dict]) -> None:
+        """Callback from the Room picker. Toggles filter if same room selected, else sets."""
+        if result is None:
+            return  # Escape — no change
+        if result["id"] == self._filter_room_id:
+            self._filter_room_id = None
+            self._filter_room_name = None
+        else:
+            self._filter_room_id = result["id"]
+            self._filter_room_name = result["name"]
+        self._load_items()
+
+    def _on_container_picked(self, result: Optional[dict]) -> None:
+        """Callback from the Container picker. Toggles filter if same container selected."""
+        if result is None:
+            return
+        if result["id"] == self._filter_container_id:
+            self._filter_container_id = None
+            self._filter_container_name = None
+        else:
+            self._filter_container_id = result["id"]
+            self._filter_container_name = result["name"]
+        self._load_items()
+
+    def _on_category_picked(self, result: Optional[dict]) -> None:
+        """Callback from the Category picker. Toggles filter if same category selected."""
+        if result is None:
+            return
+        if result["id"] == self._filter_category_id:
+            self._filter_category_id = None
+            self._filter_category_name = None
+        else:
+            self._filter_category_id = result["id"]
+            self._filter_category_name = result["name"]
+        self._load_items()
 
     def on_data_table_row_selected(self, event: DataTable.RowSelected) -> None:
         """Enter toggles the detail panel open/closed."""
