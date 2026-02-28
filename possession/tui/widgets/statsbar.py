@@ -19,9 +19,10 @@ class StatsBar(Widget):
 
     DEFAULT_CSS = """
 StatsBar {
-    height: 2;
-    background: $surface-darken-1;
-    margin-bottom: 1;
+    height: 4;
+    background: transparent;
+    border: heavy $primary-darken-2;
+    border-title-align: left;
 }
 StatsBar Horizontal {
     height: 2;
@@ -36,6 +37,7 @@ StatsBar Horizontal {
     height: 1;
     color: $text-muted;
     text-align: center;
+    text-style: bold;
 }
 .stats-value {
     height: 1;
@@ -57,6 +59,9 @@ StatsBar Horizontal {
             with Vertical(classes="stats-column"):
                 yield Static("Value", classes="stats-label", id="stat-label-value")
                 yield Static("$0.00", classes="stats-value", id="stat-val-value")
+
+    def on_mount(self) -> None:
+        self.border_title = "Stats"
 
     def refresh_stats(
         self,

@@ -31,11 +31,17 @@ class DetailPanel(Widget):
     DEFAULT_CSS = """
 DetailPanel {
     height: 1fr;
-    padding: 1;
-    border-left: solid $primary-darken-2;
+    padding: 0 1;
+    padding-top: 1;
+    margin-left: 1;
+    border: $primary-darken-2 heavy;
+    border-title-align: left;
 }
 #panel-title {
     text-style: bold;
+    text-align: center;
+    color: $text;
+    background: $primary;
     margin-bottom: 1;
     height: 1;
 }
@@ -50,13 +56,16 @@ VerticalScroll {
             for field_key, label in self.FIELDS:
                 yield Static(f"[dim]{label}:[/dim] —", id=f"field-{field_key}")
 
+    def on_mount(self) -> None:
+        self.border_title = "Details"
+
     def show_item(self, item: dict) -> None:
         """Update all field Static widgets with data from item dict.
 
         Falls back to — for missing string fields and $0.00 for missing cost.
         """
         self.query_one("#panel-title", Static).update(
-            f"[bold]{item.get('name', '')}[/bold]"
+            f"[bold]  {item.get('name', '')}  [/bold]"
         )
         for field_key, label in self.FIELDS:
             if field_key == "cost":

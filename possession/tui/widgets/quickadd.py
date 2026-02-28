@@ -100,6 +100,9 @@ class QuickAddBar(Widget):
     class ItemSaved(Message):
         """Posted when a new item has been saved to the database."""
 
+    class Closed(Message):
+        """Posted when the quick-add bar is dismissed (saved or cancelled)."""
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._db_path: Optional[Path] = None
@@ -143,6 +146,7 @@ class QuickAddBar(Widget):
         confirm.value = ""
         confirm.add_class("hidden")
         self._reset_pending()
+        self.post_message(self.Closed())
 
     # ------------------------------------------------------------------
     # Internal helpers

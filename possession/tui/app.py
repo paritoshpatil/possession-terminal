@@ -8,30 +8,42 @@ class PossessionApp(App):
     TITLE = "Possession"
 
     _CSS_DEFAULT = """
-    $primary: #ffcc00;
-    $primary-darken-2: #b38f00;
-    $surface: #101010;
-    $surface-darken-1: #181818;
-    $text: #f5f5f5;
-    $text-muted: #888888;
+    $primary: #8b5cf6;
+    $primary-darken-2: #4338ca;
+    $surface: #0f172a;
+    $surface-darken-1: #1e1b4b;
+    $text: #ffffff;
+    $text-muted: #e0e7ff;
+    $panel: $primary-darken-2;
 
     Screen {
         background: $surface;
     }
+    DataTable {
+        background: transparent;
+    }
+
+    DataTable > .datatable--cursor {
+        background: $primary;
+    }
     """
     _CSS_TRANSPARENT = """
-    $primary: #ffcc00;
-    $primary-darken-2: #b38f00;
-    $surface: #101010;
-    $surface-darken-1: #181818;
-    $text: #f5f5f5;
-    $text-muted: #888888;
+    $primary: #8b5cf6;
+    $primary-darken-2: #4338ca;
+    $surface: #0f172a;
+    $surface-darken-1: #1e1b4b;
+    $text: #ffffff;
+    $text-muted: #e0e7ff;
+    $panel: $primary-darken-2;
 
     Screen {
         background: transparent;
     }
     DataTable {
         background: transparent;
+    }
+    DataTable > .datatable--cursor {
+        background: $primary;
     }
     """
 

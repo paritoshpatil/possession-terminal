@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node:*)",
+      "Skill(gsd:plan-phase)",
+      "Skill(gsd:execute-phase)",
+      "Bash(git add:*)",
+      "Bash(git:*)",
+      "Skill(gsd:pause-work)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Skill(gsd:progress)",
+      "Bash(echo:*)",
+      "Skill(gsd:discuss-phase)",
+      "WebSearch",
+      "WebFetch(domain:raw.githubusercontent.com)"
+    ]
+  }
+}

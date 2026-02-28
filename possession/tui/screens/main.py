@@ -50,9 +50,14 @@ class MainScreen(Screen):
     DataTable {
         width: 7fr;
         height: 1fr;
-        background: $surface;
         color: $text;
+        padding: 0 1;
+        padding-top: 1;
+        background: transparent;
+        border: heavy $primary-darken-2;
+        border-title-align: left;
     }
+
     DataTable > .datatable--header {
         background: $primary;
         color: $surface;
@@ -60,8 +65,16 @@ class MainScreen(Screen):
     #detail-panel {
         width: 3fr;
         height: 1fr;
-        border-left: solid $primary-darken-2;
     }
+    #footer {
+        dock: bottom;
+        height: 1;
+        background: $primary-darken-2;
+        color: $text-muted;
+        padding: 0 1;
+        text-align: center;
+    }
+    
     """
 
     BINDINGS = [
@@ -91,12 +104,25 @@ class MainScreen(Screen):
         self._filter_category_id: Optional[int] = None
         self._filter_category_name: Optional[str] = None
 
+    _FOOTER_TEXT = (
+        "a add · e edit · r rooms · c containers · t categories"
+        " · enter details · esc close · q quit"
+    )
+
+    app_title = r"""
+    ▗▄▄▖  ▗▄▖  ▗▄▄▖ ▗▄▄▖▗▄▄▄▖ ▗▄▄▖ ▗▄▄▖▗▄▄▄▖ ▗▄▖ ▗▖  ▗▖
+    ▐▌ ▐▌▐▌ ▐▌▐▌   ▐▌   ▐▌   ▐▌   ▐▌     █  ▐▌ ▐▌▐▛▚▖▐▌
+    ▐▛▀▘ ▐▌ ▐▌ ▝▀▚▖ ▝▀▚▖▐▛▀▀▘ ▝▀▚▖ ▝▀▚▖  █  ▐▌ ▐▌▐▌ ▝▜▌
+    ▐▌   ▝▚▄▞▘▗▄▄▞▘▗▄▄▞▘▐▙▄▄▖▗▄▄▞▘▗▄▄▞▘▗▄█▄▖▝▚▄▞▘▐▌  ▐▌                                         
+    """
     def compose(self) -> ComposeResult:
         from possession.tui.widgets.quickadd import QuickAddBar
-        yield Static("Possession", id="topbar")
+        yield Static("possession", id="topbar")
         yield StatsBar(id="stats-bar")
         with Horizontal(id="main-body"):
-            yield DataTable(cursor_type="row", show_header=True)
+            table = DataTable(cursor_type="row", show_header=True)
+            table.border_title = "Items"
+            yield table
             yield DetailPanel(id="detail-panel", classes="hidden")
         yield Input(
             placeholder="Filter... (/ to open, Esc to clear)",
@@ -109,6 +135,7 @@ class MainScreen(Screen):
             id="delete-confirm",
             classes="hidden",
         )
+        yield Static(self._FOOTER_TEXT, id="footer")
 
     def on_mount(self) -> None:
         self._load_items()
@@ -185,13 +212,18 @@ class MainScreen(Screen):
         inp.focus()
 
     def action_open_quickadd(self) -> None:
-        """Open the quick-add bar."""
+        """Open the quick-add bar and hide the footer to avoid overlap."""
         from possession.tui.widgets.quickadd import QuickAddBar
+        self.query_one("#footer", Static).add_class("hidden")
         self.query_one("#quickadd-bar", QuickAddBar).open(self.app.db_path)
 
     def on_quick_add_bar_item_saved(self, event) -> None:
         """Reload the DataTable after a quick-add save."""
         self._load_items()
+
+    def on_quick_add_bar_closed(self, event) -> None:
+        """Restore the footer when the quick-add bar is dismissed."""
+        self.query_one("#footer", Static).remove_class("hidden")
 
     def on_screen_resume(self) -> None:
         """Reload DataTable whenever this screen returns to the foreground (e.g. after edit)."""

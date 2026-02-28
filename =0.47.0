@@ -1,0 +1,25 @@
+Defaulting to user installation because normal site-packages is not writeable
+Collecting textual
+  Downloading textual-8.0.0-py3-none-any.whl (718 kB)
+Requirement already satisfied: typing-extensions<5.0.0,>=4.4.0 in /Users/paritoshpatil/Library/Python/3.9/lib/python/site-packages (from textual) (4.15.0)
+Collecting markdown-it-py[linkify]>=2.1.0
+  Downloading markdown_it_py-3.0.0-py3-none-any.whl (87 kB)
+Collecting rich>=14.2.0
+  Downloading rich-14.3.3-py3-none-any.whl (310 kB)
+Requirement already satisfied: pygments<3.0.0,>=2.19.2 in /Users/paritoshpatil/Library/Python/3.9/lib/python/site-packages (from textual) (2.19.2)
+Collecting mdit-py-plugins
+  Downloading mdit_py_plugins-0.4.2-py3-none-any.whl (55 kB)
+Requirement already satisfied: platformdirs<5,>=3.6.0 in /Users/paritoshpatil/Library/Python/3.9/lib/python/site-packages (from textual) (4.4.0)
+Collecting mdurl~=0.1
+  Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Collecting linkify-it-py<3,>=1
+  Downloading linkify_it_py-2.0.3-py3-none-any.whl (19 kB)
+Collecting uc-micro-py
+  Downloading uc_micro_py-1.0.3-py3-none-any.whl (6.2 kB)
+Installing collected packages: uc-micro-py, mdurl, markdown-it-py, linkify-it-py, rich, mdit-py-plugins, textual
+  WARNING: The script markdown-it is installed in '/Users/paritoshpatil/Library/Python/3.9/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  NOTE: The current PATH contains path(s) starting with `~`, which may not be expanded by all applications.
+Successfully installed linkify-it-py-2.0.3 markdown-it-py-3.0.0 mdit-py-plugins-0.4.2 mdurl-0.1.2 rich-14.3.3 textual-8.0.0 uc-micro-py-1.0.3
+WARNING: You are using pip version 21.2.4; however, version 26.0.1 is available.
+You should consider upgrading via the '/Library/Developer/CommandLineTools/usr/bin/python3 -m pip install --upgrade pip' command.
