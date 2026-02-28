@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Users can instantly find where any item is stored and know what they own, entirely from the terminal with zero friction.
-**Current focus:** Milestone v1.1 UI Overhaul — Phase 4 COMPLETE (2/2 plans complete)
+**Current focus:** Milestone v1.1 UI Overhaul — Phase 5 IN PROGRESS (1/2 plans complete)
 
 ## Current Position
 
-Phase: Phase 4 — Foundation Flat List + Visual Chrome (2/2 plans complete — PHASE COMPLETE)
-Plan: 04-02 complete — all Phase 4 requirements met (VIEW-01, TOPBAR-01, SPSH-01, THEME-01, QADD-04)
-Status: Phase 4 executed and human-verified — ready for Phase 5 (detail panel)
-Last activity: 2026-02-27 — 04-02 plan executed, human-verified, summarized
+Phase: Phase 5 — Data Surface: Stats Bar + Detail Panel (1/2 plans complete)
+Plan: 05-01 complete — get_stats(), StatsBar widget, DetailPanel widget created (STAT-01, PANEL-01)
+Status: 05-01 executed and committed — ready for 05-02 (MainScreen wiring)
+Last activity: 2026-02-28 — 05-01 plan executed, all 3 tasks committed
 
-Progress: [##########] Phase 4: 2/2 plans
+Progress: [#####-----] Phase 5: 1/2 plans
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
-- Average duration: 3.0 min
-- Total execution time: ~35 min
+- Total plans completed: 10
+- Average duration: 2.9 min
+- Total execution time: ~36 min
 
 **By Phase:**
 
@@ -31,9 +31,10 @@ Progress: [##########] Phase 4: 2/2 plans
 | 2 - Browse | 2 | 6 min | 3 min |
 | 3 - Manage | 3 | 17 min | 5.7 min |
 | 4 - Flat List + Visual Chrome | 2 | ~11 min | ~5.5 min |
+| 5 - Data Surface (partial) | 1 | 1 min | 1 min |
 
 **Recent Trend:**
-- Last 5 plans: 4 min, 4 min, 6 min, 7 min, 5 min
+- Last 5 plans: 4 min, 4 min, 6 min, 7 min, 1 min
 - Trend: Fast execution, straightforward implementation
 
 *Updated after each plan completion*
@@ -79,6 +80,10 @@ Recent decisions affecting current work:
 - 04-02: switch_screen(MainScreen()) used in SplashScreen instead of pop_screen() — prevents DataTable rendering behind transparent splash background
 - 04-02: self.CSS instance override (after super().__init__()) selects transparent vs default CSS — simpler than CSS class toggling
 - 04-02: Input border removed (border: none, height: 1) to fit label + input within QuickAddBar height: 2
+- 05-01: StatsBar not docked — height: 2 in normal MainScreen compose() flow between topbar and main body (docking causes topbar overlap)
+- 05-01: get_stats imported lazily inside StatsBar.refresh_stats() to avoid circular import risk
+- 05-01: DetailPanel FIELDS class attribute is list of (field_key, label) tuples — single source of truth for compose() and show_item()
+- 05-01: COALESCE(SUM(cost), 0.0) in SQL handles empty DB gracefully — total_value is 0.0 not NULL
 
 ### Pending Todos
 
@@ -90,6 +95,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-27
-Stopped at: Completed 04-02 (SplashScreen, transparent flag, QuickAddBar label — SPSH-01, THEME-01, QADD-04) — Phase 4 complete, ready for Phase 5 (detail panel)
+Last session: 2026-02-28
+Stopped at: Completed 05-01 (get_stats(), StatsBar widget, DetailPanel widget — STAT-01, PANEL-01) — Phase 5 plan 1 complete, ready for 05-02 (MainScreen wiring)
 Resume file: None

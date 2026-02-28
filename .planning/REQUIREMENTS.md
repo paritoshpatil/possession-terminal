@@ -19,8 +19,8 @@
 
 - [x] **SPSH-01**: App shows a splash screen with ASCII art ("POSSESSION") on launch; any key dismisses it
 - [x] **TOPBAR-01**: A persistent top bar displays the app name "Possession" at all times
-- [ ] **STAT-01**: A stats bar shows live counts — items (filtered/total), rooms, containers, and total inventory value
-- [ ] **PANEL-01**: Pressing Enter on an item opens a detail panel showing all item fields
+- [x] **STAT-01**: A stats bar shows live counts — items (filtered/total), rooms, containers, and total inventory value
+- [x] **PANEL-01**: Pressing Enter on an item opens a detail panel showing all item fields
 
 ### Theming
 
@@ -75,8 +75,8 @@ Phases follow on from v1.0 (Phases 1–3 complete). v1.1 adds Phases 4–6.
 | THEME-01 | Phase 4 | Complete |
 | QADD-04 | Phase 4 | Complete |
 | SPSH-01 | Phase 4 | Complete |
-| STAT-01 | Phase 5 | Pending |
-| PANEL-01 | Phase 5 | Pending |
+| STAT-01 | Phase 5 | Complete |
+| PANEL-01 | Phase 5 | Complete |
 | FILT-01 | Phase 6 | Pending |
 | FILT-02 | Phase 6 | Pending |
 | FILT-03 | Phase 6 | Pending |

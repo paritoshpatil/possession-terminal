@@ -82,5 +82,5 @@ Plans:
 | 2. Browse | v1.0 | 3/3 | Complete | 2026-02-24 |
 | 3. Manage | v1.0 | 4/4 | Complete | 2026-02-24 |
 | 4. Foundation — Flat List + Visual Chrome | v1.1 | 2/2 | Complete | 2026-02-27 |
-| 5. Data Surface — Stats Bar + Detail Panel | v1.1 | 0/2 | Not started | - |
+| 5. Data Surface — Stats Bar + Detail Panel | 1/2 | In Progress|  | - |
 | 6. Keyboard UX — Filter Pickers | v1.1 | 0/2 | Not started | - |
