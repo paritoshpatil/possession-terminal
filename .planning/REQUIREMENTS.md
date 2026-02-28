@@ -11,9 +11,9 @@
 
 ### Filtering
 
-- [ ] **FILT-01**: User can filter item list by Room using a VIM-style picker (keyboard-navigable list modal)
-- [ ] **FILT-02**: User can filter item list by Container using a VIM-style picker
-- [ ] **FILT-03**: User can filter item list by Category using a VIM-style picker
+- [x] **FILT-01**: User can filter item list by Room using a VIM-style picker (keyboard-navigable list modal)
+- [x] **FILT-02**: User can filter item list by Container using a VIM-style picker
+- [x] **FILT-03**: User can filter item list by Category using a VIM-style picker
 
 ### Interface
 
@@ -77,9 +77,9 @@ Phases follow on from v1.0 (Phases 1–3 complete). v1.1 adds Phases 4–6.
 | SPSH-01 | Phase 4 | Complete |
 | STAT-01 | Phase 5 | Complete |
 | PANEL-01 | Phase 5 | Complete |
-| FILT-01 | Phase 6 | Pending |
-| FILT-02 | Phase 6 | Pending |
-| FILT-03 | Phase 6 | Pending |
+| FILT-01 | Phase 6 | Complete |
+| FILT-02 | Phase 6 | Complete |
+| FILT-03 | Phase 6 | Complete |
 
 **Coverage:**
 - v1.1 requirements: 10 total

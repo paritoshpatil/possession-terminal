@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Users can instantly find where any item is stored and know what they own, entirely from the terminal with zero friction.
-**Current focus:** Milestone v1.1 UI Overhaul — Phase 5 COMPLETE (2/2 plans complete)
+**Current focus:** Milestone v1.1 UI Overhaul — Phase 6 IN PROGRESS (1/4 plans complete)
 
 ## Current Position
 
-Phase: Phase 5 — Data Surface: Stats Bar + Detail Panel (2/2 plans complete)
-Plan: 05-02 complete — StatsBar + DetailPanel wired into MainScreen, live stats, Enter/j/k/Escape handlers (STAT-01, PANEL-01)
-Status: Phase 5 fully executed and committed — ready for Phase 6
-Last activity: 2026-02-28 — 05-02 plan executed and human-verified
+Phase: Phase 6 — Keyboard UX: Filter Pickers (1/4 plans complete)
+Plan: 06-01 complete — FilterPickerScreen(ModalScreen) reusable VIM-style picker modal (FILT-01, FILT-02, FILT-03)
+Status: Phase 6 plan 01 complete — ready for plan 02 (MainScreen wiring)
+Last activity: 2026-02-28 — 06-01 plan executed
 
-Progress: [##########] Phase 5: 2/2 plans
+Progress: [##########] Phase 6: 1/4 plans
 
 ## Performance Metrics
 
@@ -85,6 +85,10 @@ Recent decisions affecting current work:
 - 05-01: DetailPanel FIELDS class attribute is list of (field_key, label) tuples — single source of truth for compose() and show_item()
 - 05-01: COALESCE(SUM(cost), 0.0) in SQL handles empty DB gracefully — total_value is 0.0 not NULL
 - [Phase 05-02]: panel.display toggle and row-key lookup pattern established for DetailPanel wiring
+- 06-01: FilterPickerScreen is data-agnostic (items passed as param, no model imports) — keeps picker reusable and avoids circular imports
+- 06-01: Focus stays on Input always; j/k call lv.action_cursor_down/up programmatically — avoids key-in-search pitfall
+- 06-01: Active filter floats to top with checkmark in _rebuild_list(); empty-state rows not added to self._filtered (Enter is a no-op)
+- 06-01: ModalScreen + dismiss(result) + push_screen(screen, callback) established as picker contract for Phase 6
 
 ### Pending Todos
 
@@ -97,5 +101,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-28
-Stopped at: Completed 05-02 (MainScreen wiring — StatsBar + DetailPanel — STAT-01, PANEL-01) — Phase 5 complete, ready for Phase 6
+Stopped at: Completed 06-01 (FilterPickerScreen modal — FILT-01, FILT-02, FILT-03) — Phase 6 plan 01 complete, ready for plan 02
 Resume file: None
