@@ -136,7 +136,9 @@ class QuickAddBar(Widget):
     def close(self) -> None:
         """Hide the quick-add bar and clear inputs."""
         self.add_class("hidden")
-        self.query_one("#quickadd-input", Input).value = ""
+        main_input = self.query_one("#quickadd-input", Input)
+        main_input.value = ""
+        main_input.remove_class("hidden")
         confirm = self.query_one("#quickadd-confirm", Input)
         confirm.value = ""
         confirm.add_class("hidden")
@@ -154,6 +156,7 @@ class QuickAddBar(Widget):
         self._confirm_mode = ""
 
     def _show_confirm(self, message: str) -> None:
+        self.query_one("#quickadd-input", Input).add_class("hidden")
         confirm = self.query_one("#quickadd-confirm", Input)
         confirm.placeholder = message
         confirm.value = ""
