@@ -1,3 +1,5 @@
+from typing import Optional
+
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.widget import Widget
@@ -19,6 +21,7 @@ class StatsBar(Widget):
 StatsBar {
     height: 2;
     background: $surface-darken-1;
+    margin-bottom: 1;
 }
 StatsBar Horizontal {
     height: 2;
@@ -55,11 +58,28 @@ StatsBar Horizontal {
                 yield Static("Value", classes="stats-label", id="stat-label-value")
                 yield Static("$0.00", classes="stats-value", id="stat-val-value")
 
-    def refresh_stats(self, db_path) -> None:
-        """Query the database and update all four stat value widgets."""
+    def refresh_stats(
+        self,
+        db_path,
+        item_count_override: Optional[int] = None,
+        filter_tags: str = "",
+    ) -> None:
+        """Query the database and update all four stat value widgets.
+
+        Args:
+            db_path: Path to the SQLite database file.
+            item_count_override: When provided, display this count instead of the
+                global item_count from get_stats(). Used to show the filtered count.
+            filter_tags: When non-empty, appended after the item count (e.g.
+                "[Room: Kitchen] [Category: Audio]").
+        """
         from possession.models import get_stats
         stats = get_stats(db_path)
-        self.query_one("#stat-val-items", Static).update(str(stats["item_count"]))
+        display_count = item_count_override if item_count_override is not None else stats["item_count"]
+        item_text = str(display_count)
+        if filter_tags:
+            item_text = f"{item_text} {filter_tags}"
+        self.query_one("#stat-val-items", Static).update(item_text)
         self.query_one("#stat-val-rooms", Static).update(str(stats["room_count"]))
         self.query_one("#stat-val-containers", Static).update(str(stats["container_count"]))
         self.query_one("#stat-val-value", Static).update(f"${stats['total_value']:.2f}")
