@@ -73,14 +73,14 @@ class FilterPickerScreen(ModalScreen):
             yield ListView(id="picker-list")
             yield Static("", id="picker-hint")
 
-    def on_mount(self) -> None:
-        self._rebuild_list("")
+    async def on_mount(self) -> None:
+        await self._rebuild_list("")
         self.query_one("#picker-search", Input).focus()
 
-    def _rebuild_list(self, query: str) -> None:
+    async def _rebuild_list(self, query: str) -> None:
         """Rebuild the picker list, floating active item to top and applying query filter."""
         lv = self.query_one("#picker-list", ListView)
-        lv.clear()
+        await lv.clear()
         q = query.lower().strip()
 
         # Separate active item (floats to top with checkmark) from the rest
@@ -114,10 +114,10 @@ class FilterPickerScreen(ModalScreen):
         elif not self._filtered:
             lv.append(ListItem(Label("  (no matches)")))
 
-    def on_input_changed(self, event: Input.Changed) -> None:
+    async def on_input_changed(self, event: Input.Changed) -> None:
         """Live-filter the list as the user types."""
         if event.input.id == "picker-search":
-            self._rebuild_list(event.value)
+            await self._rebuild_list(event.value)
 
     def on_key(self, event: events.Key) -> None:
         """Handle VIM navigation and confirm/dismiss."""
