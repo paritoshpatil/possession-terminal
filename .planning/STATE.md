@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Users can instantly find where any item is stored and know what they own, entirely from the terminal with zero friction.
-**Current focus:** Milestone v1.1 UI Overhaul — Phase 5 IN PROGRESS (1/2 plans complete)
+**Current focus:** Milestone v1.1 UI Overhaul — Phase 5 COMPLETE (2/2 plans complete)
 
 ## Current Position
 
-Phase: Phase 5 — Data Surface: Stats Bar + Detail Panel (1/2 plans complete)
-Plan: 05-01 complete — get_stats(), StatsBar widget, DetailPanel widget created (STAT-01, PANEL-01)
-Status: 05-01 executed and committed — ready for 05-02 (MainScreen wiring)
-Last activity: 2026-02-28 — 05-01 plan executed, all 3 tasks committed
+Phase: Phase 5 — Data Surface: Stats Bar + Detail Panel (2/2 plans complete)
+Plan: 05-02 complete — StatsBar + DetailPanel wired into MainScreen, live stats, Enter/j/k/Escape handlers (STAT-01, PANEL-01)
+Status: Phase 5 fully executed and committed — ready for Phase 6
+Last activity: 2026-02-28 — 05-02 plan executed and human-verified
 
-Progress: [#####-----] Phase 5: 1/2 plans
+Progress: [##########] Phase 5: 2/2 plans
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
-- Average duration: 2.9 min
-- Total execution time: ~36 min
+- Total plans completed: 11
+- Average duration: ~4.7 min
+- Total execution time: ~52 min
 
 **By Phase:**
 
@@ -31,7 +31,7 @@ Progress: [#####-----] Phase 5: 1/2 plans
 | 2 - Browse | 2 | 6 min | 3 min |
 | 3 - Manage | 3 | 17 min | 5.7 min |
 | 4 - Flat List + Visual Chrome | 2 | ~11 min | ~5.5 min |
-| 5 - Data Surface (partial) | 1 | 1 min | 1 min |
+| 5 - Data Surface | 2 | ~16 min | ~8 min |
 
 **Recent Trend:**
 - Last 5 plans: 4 min, 4 min, 6 min, 7 min, 1 min
@@ -84,6 +84,7 @@ Recent decisions affecting current work:
 - 05-01: get_stats imported lazily inside StatsBar.refresh_stats() to avoid circular import risk
 - 05-01: DetailPanel FIELDS class attribute is list of (field_key, label) tuples — single source of truth for compose() and show_item()
 - 05-01: COALESCE(SUM(cost), 0.0) in SQL handles empty DB gracefully — total_value is 0.0 not NULL
+- [Phase 05-02]: panel.display toggle and row-key lookup pattern established for DetailPanel wiring
 
 ### Pending Todos
 
@@ -96,5 +97,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-28
-Stopped at: Completed 05-01 (get_stats(), StatsBar widget, DetailPanel widget — STAT-01, PANEL-01) — Phase 5 plan 1 complete, ready for 05-02 (MainScreen wiring)
+Stopped at: Completed 05-02 (MainScreen wiring — StatsBar + DetailPanel — STAT-01, PANEL-01) — Phase 5 complete, ready for Phase 6
 Resume file: None
