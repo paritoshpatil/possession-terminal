@@ -70,7 +70,11 @@ Plans:
   3. Active filters are visible in the stats bar (e.g. `[Room: Kitchen]`)
   4. Multiple individual filters stack: e.g. filtering by Room=Kitchen then Category=Tools shows only Tools in Kitchen
   5. Pressing `r`/`c`/`t` when a filter is active re-opens the picker; selecting the already-active value clears the filter
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — Create FilterPickerScreen reusable modal (FILT-01, FILT-02, FILT-03)
+- [ ] 06-02-PLAN.md — Wire r/c/t bindings, filter state, StatsBar tags, and zero-match state into MainScreen (FILT-01, FILT-02, FILT-03)
 
 </details>
 
