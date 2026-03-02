@@ -67,6 +67,9 @@ class ThemePickerScreen(ModalScreen):
         self._db_path = db_path
         self._current_theme = current_theme
         self._transparent = transparent
+        # Stored so Escape can revert to the state before the picker was opened
+        self._original_theme = current_theme
+        self._original_transparent = transparent
         self._theme_names: list = []
 
     _FOOTER_TEXT = "j/k: move | enter: select | t: toggle transparent | esc: close"
@@ -129,10 +132,19 @@ class ThemePickerScreen(ModalScreen):
             f"  [transparent: {'ON ' if self._transparent else 'OFF'}]"
         )
 
+    def on_list_view_highlighted(self, event: ListView.Highlighted) -> None:
+        """Live-preview the theme as the cursor moves through the list."""
+        if event.item is None:
+            return
+        item_id = event.item.id or ""
+        if item_id.startswith("theme-") and item_id != "theme-__transparent__":
+            theme_name = item_id[len("theme-"):]
+            self._current_theme = theme_name
+            self.app.apply_theme(theme_name, self._transparent, persist=False)
+
     def on_key(self, event: events.Key) -> None:
         """Handle VIM navigation, theme selection, and transparent toggle."""
         lv = self.query_one("#theme-list", ListView)
-        total_entries = len(self._theme_names) + 1  # themes + transparent row
 
         if event.key == "j":
             lv.action_cursor_down()
@@ -143,13 +155,10 @@ class ThemePickerScreen(ModalScreen):
             event.prevent_default()
 
         elif event.key == "t":
-            # Toggle transparent, persist, update UI
+            # Toggle transparent, preview live (no persist until Enter)
             self._transparent = not self._transparent
-            from possession.settings import set_setting
-            set_setting(self._db_path, "transparent", "1" if self._transparent else "0")
             self._update_transparent_row()
-            # Apply live CSS update via app
-            self.app.apply_theme(self._current_theme, self._transparent)
+            self.app.apply_theme(self._current_theme, self._transparent, persist=False)
             event.prevent_default()
 
         elif event.key == "enter":
@@ -159,18 +168,18 @@ class ThemePickerScreen(ModalScreen):
                 return
 
             if idx < len(self._theme_names):
-                # Theme row selected
-                selected = self._theme_names[idx]
-                self.dismiss({"theme": selected, "transparent": self._transparent})
+                # Theme already previewed live — persist and close
+                self.app.apply_theme(self._current_theme, self._transparent, persist=True)
+                self.dismiss({"theme": self._current_theme, "transparent": self._transparent})
             else:
-                # Transparent toggle row — same behaviour as pressing t
+                # Transparent toggle row — toggle, persist, preview
                 self._transparent = not self._transparent
-                from possession.settings import set_setting
-                set_setting(self._db_path, "transparent", "1" if self._transparent else "0")
                 self._update_transparent_row()
-                self.app.apply_theme(self._current_theme, self._transparent)
+                self.app.apply_theme(self._current_theme, self._transparent, persist=True)
             event.prevent_default()
 
         elif event.key == "escape":
+            # Revert to the state before the picker was opened
+            self.app.apply_theme(self._original_theme, self._original_transparent, persist=True)
             self.dismiss(None)
             event.prevent_default()
