@@ -76,8 +76,15 @@ class MainScreen(Screen):
         text-style: bold;
     }
     #filter-input {
-        padding: 0;
-        margin-bottom: 1;
+        margin: 0;
+        border: heavy $primary;
+        background: transparent;
+    }
+
+    #delete-confirm {
+        margin: 0;
+        border: heavy $primary;
+        background: transparent;
     }
     """
 
@@ -120,7 +127,6 @@ class MainScreen(Screen):
     ▐▌   ▝▚▄▞▘▗▄▄▞▘▗▄▄▞▘▐▙▄▄▖▗▄▄▞▘▗▄▄▞▘▗▄█▄▖▝▚▄▞▘▐▌  ▐▌                                         
     """
     def compose(self) -> ComposeResult:
-        from possession.tui.widgets.quickadd import QuickAddBar
         yield Static("possession", id="topbar")
         yield StatsBar(id="stats-bar")
         with Horizontal(id="main-body"):
@@ -133,7 +139,6 @@ class MainScreen(Screen):
             id="filter-input",
             classes="hidden",
         )
-        yield QuickAddBar(id="quickadd-bar", classes="hidden")
         yield Input(
             placeholder="Delete item? [y/N]",
             id="delete-confirm",
@@ -194,15 +199,12 @@ class MainScreen(Screen):
         ])
 
     def _any_input_active(self) -> bool:
-        """Return True if any text input overlay (filter, quickadd, delete-confirm) is open."""
-        from possession.tui.widgets.quickadd import QuickAddBar
+        """Return True if any text input overlay (filter, delete-confirm) is open."""
         filter_inp = self.query_one("#filter-input", Input)
         del_inp = self.query_one("#delete-confirm", Input)
-        quickadd = self.query_one("#quickadd-bar", QuickAddBar)
         return (
             not filter_inp.has_class("hidden")
             or not del_inp.has_class("hidden")
-            or not quickadd.has_class("hidden")
         )
 
     # ------------------------------------------------------------------
@@ -216,18 +218,15 @@ class MainScreen(Screen):
         inp.focus()
 
     def action_open_quickadd(self) -> None:
-        """Open the quick-add bar and hide the footer to avoid overlap."""
-        from possession.tui.widgets.quickadd import QuickAddBar
-        self.query_one("#footer", Static).add_class("hidden")
-        self.query_one("#quickadd-bar", QuickAddBar).open(self.app.db_path)
+        """Open the quick-add modal overlay."""
+        if self._any_input_active():
+            return
+        from possession.tui.screens.quickadd import QuickAddScreen
+        self.app.push_screen(QuickAddScreen(self.app.db_path), self._on_quickadd_done)
 
-    def on_quick_add_bar_item_saved(self, event) -> None:
-        """Reload the DataTable after a quick-add save."""
-        self._load_items()
-
-    def on_quick_add_bar_closed(self, event) -> None:
-        """Restore the footer when the quick-add bar is dismissed."""
-        self.query_one("#footer", Static).remove_class("hidden")
+    def _on_quickadd_done(self, result) -> None:
+        if result and result.get("saved"):
+            self._load_items()
 
     def on_screen_resume(self) -> None:
         """Reload DataTable whenever this screen returns to the foreground (e.g. after edit)."""
@@ -455,14 +454,7 @@ class MainScreen(Screen):
     def on_key(self, event: events.Key) -> None:
         """Handle escape hierarchy: panel > delete-confirm > filter > (app exit via binding)."""
         if event.key == "escape":
-            # 1. Panel takes priority
-            panel = self.query_one("#detail-panel", DetailPanel)
-            if panel.display:
-                panel.display = False
-                self.query_one(DataTable).focus()
-                event.prevent_default()
-                return
-            # 2. Delete confirm (existing)
+            # 1. Delete confirm (existing)
             del_inp = self.query_one("#delete-confirm", Input)
             if not del_inp.has_class("hidden"):
                 del_inp.value = ""
@@ -471,7 +463,7 @@ class MainScreen(Screen):
                 self.query_one(DataTable).focus()
                 event.prevent_default()
                 return
-            # 3. Filter input (existing)
+            # 2. Filter input (existing)
             inp = self.query_one("#filter-input", Input)
             if not inp.has_class("hidden"):
                 inp.value = ""
@@ -480,7 +472,7 @@ class MainScreen(Screen):
                 self._apply_filter("")
                 event.prevent_default()
                 return
-            # 4. Nothing open -> fall through (action_go_back binding handles exit)
+            # 3. Nothing open -> fall through (action_go_back binding handles exit)
         if event.key == "g":
             if self._last_key == "g":
                 self._last_key = ""
