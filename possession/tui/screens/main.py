@@ -75,7 +75,10 @@ class MainScreen(Screen):
         text-align: center;
         text-style: bold;
     }
-    
+    #filter-input {
+        padding: 0;
+        margin-bottom: 1;
+    }
     """
 
     BINDINGS = [
