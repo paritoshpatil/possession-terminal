@@ -1,3 +1,4 @@
+import inspect
 from pathlib import Path
 from textual.app import App
 
@@ -38,5 +39,18 @@ class PossessionApp(App):
         if persist:
             set_setting(self.db_path, "theme", theme)
             set_setting(self.db_path, "transparent", "1" if transparent else "0")
-        self.CSS = build_css(theme, transparent)
+        new_css = build_css(theme, transparent)
+        self.CSS = new_css
+        # refresh_css() re-parses from the stylesheet's internal source dict, which
+        # was populated at startup and never updated by assigning self.CSS. We must
+        # overwrite the source entry directly so reparse() picks up the new CSS.
+        try:
+            app_path = inspect.getfile(self.__class__)
+        except (TypeError, OSError):
+            app_path = ""
+        self.stylesheet.add_source(
+            new_css,
+            read_from=(app_path, f"{self.__class__.__name__}.CSS"),
+            is_default_css=False,
+        )
         self.refresh_css()
