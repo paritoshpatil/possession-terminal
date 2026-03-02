@@ -65,6 +65,24 @@ def list_rooms(db_path: Path) -> List[Dict]:
         conn.close()
 
 
+def count_room_contents(db_path: Path, room_id: int) -> dict:
+    """Return container and item counts for a room.
+    Returns dict with 'containers' (int) and 'items' (int) keys.
+    """
+    conn = get_connection(db_path)
+    conn.row_factory = sqlite3.Row
+    try:
+        containers = conn.execute(
+            "SELECT COUNT(*) AS cnt FROM containers WHERE room_id=?", (room_id,)
+        ).fetchone()["cnt"]
+        items = conn.execute(
+            "SELECT COUNT(*) AS cnt FROM items WHERE room_id=?", (room_id,)
+        ).fetchone()["cnt"]
+        return {"containers": containers, "items": items}
+    finally:
+        conn.close()
+
+
 # ---------------------------------------------------------------------------
 # Containers
 # ---------------------------------------------------------------------------
@@ -138,6 +156,21 @@ def list_containers(
                 " ORDER BY name"
             ).fetchall()
         return [dict(row) for row in rows]
+    finally:
+        conn.close()
+
+
+def count_container_items(db_path: Path, container_id: int) -> dict:
+    """Return item count for a container.
+    Returns dict with 'items' (int) key.
+    """
+    conn = get_connection(db_path)
+    conn.row_factory = sqlite3.Row
+    try:
+        items = conn.execute(
+            "SELECT COUNT(*) AS cnt FROM items WHERE container_id=?", (container_id,)
+        ).fetchone()["cnt"]
+        return {"items": items}
     finally:
         conn.close()
 
