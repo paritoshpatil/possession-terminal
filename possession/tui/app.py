@@ -30,7 +30,7 @@ class PossessionApp(App):
     }
     DataTable {
         background: transparent;
-        scrollbar-size-vertical: 1;
+        scrollbar-size-vertical: 0;
     }
     DataTable > .datatable--cursor {
         background: $primary;
@@ -62,7 +62,7 @@ class PossessionApp(App):
     }
     DataTable {
         background: transparent;
-        scrollbar-size-vertical: 1;
+        scrollbar-size-vertical: 0;
     }
     DataTable > .datatable--cursor {
         background: $primary;
