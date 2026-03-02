@@ -114,8 +114,14 @@ None.
 
 None.
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 1 | Add delete functionality for rooms, containers, and categories in filter menus | 2026-03-02 | 7cac184 | [1-add-delete-functionality-for-rooms-conta](./quick/1-add-delete-functionality-for-rooms-conta/) |
+
 ## Session Continuity
 
-Last session: 2026-02-28
-Stopped at: v1.1 milestone complete — archived to .planning/milestones/v1.1-ROADMAP.md
+Last session: 2026-03-02
+Stopped at: Quick task 1 complete — delete functionality for rooms, containers, and categories in filter menus
 Resume file: None
