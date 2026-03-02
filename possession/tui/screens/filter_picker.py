@@ -46,10 +46,6 @@ class FilterPickerScreen(ModalScreen):
         height: auto;
         max-height: 10;
     }
-    #picker-list > ListItem.--highlight {
-        background: $primary;
-        color: $surface;
-    }
     #picker-hint {
         height: 1;
         color: $text;

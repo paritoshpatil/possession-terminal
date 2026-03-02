@@ -15,6 +15,10 @@ class PossessionApp(App):
     $text: #cdd6f4;
     $text-muted: #bac2de;
     $panel: $primary-darken-2;
+    $border: #cba6f7;
+    $block-cursor-background: #cba6f7;
+    $block-cursor-foreground: #1e1e2e;
+    $block-cursor-blurred-background: #cba6f740;
 
     Screen {
         background: $surface;
@@ -28,16 +32,6 @@ class PossessionApp(App):
     DataTable > .datatable--header {
         color: $surface;
     }
-    Input:focus {
-        border: tall $primary;
-    }
-    ListView > ListItem.--highlight {
-        background: $primary 10%;
-    }
-    ListView:focus > ListItem.--highlight {
-        background: $primary;
-        color: $surface;
-    }
     """
     _CSS_TRANSPARENT = """
     $primary: #cba6f7;
@@ -47,6 +41,10 @@ class PossessionApp(App):
     $text: #cdd6f4;
     $text-muted: #bac2de;
     $panel: $primary-darken-2;
+    $border: #cba6f7;
+    $block-cursor-background: #cba6f7;
+    $block-cursor-foreground: #1e1e2e;
+    $block-cursor-blurred-background: #cba6f740;
 
     Screen {
         background: transparent;
@@ -58,16 +56,6 @@ class PossessionApp(App):
         background: $primary;
     }
     DataTable > .datatable--header {
-        color: $surface;
-    }
-    Input:focus {
-        border: tall $primary;
-    }
-    ListView > ListItem.--highlight {
-        background: $primary 10%;
-    }
-    ListView:focus > ListItem.--highlight {
-        background: $primary;
         color: $surface;
     }
     """
