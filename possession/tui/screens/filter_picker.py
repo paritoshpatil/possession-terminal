@@ -26,7 +26,7 @@ class FilterPickerScreen(ModalScreen):
     #picker-container {
         width: 64;
         max-height: 24;
-        border: solid $primary;
+        border: heavy $primary;
         background: $surface;
         padding: 0 1;
     }
@@ -51,12 +51,11 @@ class FilterPickerScreen(ModalScreen):
         border: tall $border;
         background-tint: $surface 0%;
     }
-    #picker-hint {
-        height: 1;
-        color: $text;
-        text-align: center;
-        margin-top: 2;
+
+    #picker-search:focus {
+        border: tall $primary;
     }
+
     #picker-delete-confirm {
         height: auto;
         color: $text;
@@ -64,6 +63,16 @@ class FilterPickerScreen(ModalScreen):
         background: $surface;
         padding: 0 1;
         margin-top: 1;
+    }
+    #picker-footer {
+        dock: bottom;
+        height: 1;
+        background: $primary-darken-2;
+        color: $surface;
+        padding: 0 1;
+        text-align: center;
+        text-style: bold;
+        margin: 0 -1;
     }
     """
 
@@ -93,13 +102,15 @@ class FilterPickerScreen(ModalScreen):
         self._delete_mode: bool = False
         self._delete_candidate: Optional[Dict] = None
 
+    _FOOTER_TEXT = "tab: switch focus  |  enter: select  |  d: delete"
+
     def compose(self) -> ComposeResult:
         with Vertical(id="picker-container"):
             yield Static(self._title, id="picker-title")
             yield Input(placeholder="Type to filter...", id="picker-search")
             yield ListView(id="picker-list")
-            yield Static("", id="picker-hint")
             yield Static("", id="picker-delete-confirm", classes="hidden")
+            yield Static(self._FOOTER_TEXT, id="picker-footer")
 
     async def on_mount(self) -> None:
         await self._rebuild_list("")
@@ -233,16 +244,3 @@ class FilterPickerScreen(ModalScreen):
                 self.dismiss(self._filtered[idx])
             event.prevent_default()
 
-    def on_list_view_highlighted(self, event: ListView.Highlighted) -> None:
-        """Update hint line when cursor moves over the active filter item."""
-        hint = self.query_one("#picker-hint", Static)
-        if event.item is not None:
-            item_id_str = event.item.id  # format: "item-{id}"
-            try:
-                item_id = int(item_id_str.split("-", 1)[1])
-                if item_id == self._active_id:
-                    hint.update("Enter to clear filter")
-                    return
-            except (ValueError, AttributeError, IndexError):
-                pass
-        hint.update("[dim]d to delete[/dim]")
