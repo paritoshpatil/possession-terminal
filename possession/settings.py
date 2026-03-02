@@ -49,6 +49,46 @@ THEMES: Dict[str, Dict[str, str]] = {
         "text": "#ebdbb2",
         "text-muted": "#bdae93",
     },
+    "one-dark": {
+        "primary": "#61afef",
+        "primary-darken-2": "#c678dd",
+        "surface": "#282c34",
+        "surface-darken-1": "#21252b",
+        "text": "#abb2bf",
+        "text-muted": "#5c6370",
+    },
+    "monokai": {
+        "primary": "#a6e22e",
+        "primary-darken-2": "#f92672",
+        "surface": "#272822",
+        "surface-darken-1": "#1e1f1c",
+        "text": "#f8f8f2",
+        "text-muted": "#75715e",
+    },
+    "rose-pine": {
+        "primary": "#c4a7e7",
+        "primary-darken-2": "#eb6f92",
+        "surface": "#191724",
+        "surface-darken-1": "#13111e",
+        "text": "#e0def4",
+        "text-muted": "#6e6a86",
+    },
+    "kanagawa": {
+        "primary": "#7e9cd8",
+        "primary-darken-2": "#957fb8",
+        "surface": "#1f1f28",
+        "surface-darken-1": "#16161d",
+        "text": "#dcd7ba",
+        "text-muted": "#727169",
+    },
+    "solarized-dark": {
+        "primary": "#268bd2",
+        "primary-darken-2": "#2aa198",
+        "surface": "#002b36",
+        "surface-darken-1": "#001e26",
+        "text": "#839496",
+        "text-muted": "#586e75",
+    },
 }
 
 _DEFAULT_THEME = "catppuccin-mocha"
