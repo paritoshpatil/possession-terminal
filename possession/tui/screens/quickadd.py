@@ -58,11 +58,15 @@ class QuickAddScreen(ModalScreen):
     QuickAddScreen {
         align: center middle;
     }
+    .hidden {
+        display: none;
+    }
     #quickadd-container {
-        width: 64;
+        width: 128;
         border: heavy $primary;
         background: $surface;
         padding: 0 1;
+        height: 16;
     }
     #quickadd-title {
         text-style: bold;
