@@ -105,6 +105,10 @@ Recent decisions affecting current work:
 - 06-02: filter_tags is a pre-formatted string built by _build_filter_tags() — keeps refresh_stats() signature simple
 - 06-02: _any_input_active() guard centralizes check for open text overlays before picker actions open
 - 06-02: Empty-state sentinel row key="__empty__" — not a valid item ID, so detail panel/edit/delete handlers no-op on it naturally
+- quick-3: settings.py THEMES dict + build_css() centralizes all theme CSS generation — single source of truth for 5 built-in themes
+- quick-3: CLI --transparent flag overrides DB transparent setting for session only, not persisted — one-time override intent preserved
+- quick-3: apply_theme() persists to DB before calling refresh_css() — ensures consistency if refresh_css() were to fail
+- quick-3: X (capital) binding for theme picker — avoids all existing lowercase key conflicts
 
 ### Pending Todos
 
@@ -120,9 +124,10 @@ None.
 |---|-------------|------|--------|-----------|
 | 1 | Add delete functionality for rooms, containers, and categories in filter menus | 2026-03-02 | 7cac184 | [1-add-delete-functionality-for-rooms-conta](./quick/1-add-delete-functionality-for-rooms-conta/) |
 | 2 | Fix UI border and selection colors to use $primary instead of default blue | 2026-03-02 | 3bdb091 | [2-fix-ui-border-and-selection-colors-to-us](./quick/2-fix-ui-border-and-selection-colors-to-us/) |
+| 3 | Add theme switching with multiple built-in themes and transparent toggle | 2026-03-02 | 99a8d10 | [3-add-theme-switching-with-multiple-built-](./quick/3-add-theme-switching-with-multiple-built-/) |
 
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Quick task 2 complete — fix UI border and selection colors to use $primary
+Stopped at: Quick task 3 complete — add theme switching with multiple built-in themes
 Resume file: None
