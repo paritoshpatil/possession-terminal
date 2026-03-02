@@ -21,10 +21,8 @@ def _fmt_location(row: dict) -> str:
 
 
 def _fmt_cost(cost) -> str:
-    """Format cost as '$X.XX' or '' if None."""
-    if cost is None:
-        return ""
-    return f"${cost:.2f}"
+    from possession.settings import format_currency
+    return format_currency(cost)
 
 
 class MainScreen(Screen):

@@ -21,7 +21,7 @@ class StatsBar(Widget):
 StatsBar {
     height: 4;
     background: transparent;
-    border: heavy $primary-darken-2;
+    border: heavy $primary;
     border-title-align: left;
 }
 StatsBar Horizontal {
@@ -58,7 +58,7 @@ StatsBar Horizontal {
                 yield Static("0", classes="stats-value", id="stat-val-containers")
             with Vertical(classes="stats-column"):
                 yield Static("Value", classes="stats-label", id="stat-label-value")
-                yield Static("$0.00", classes="stats-value", id="stat-val-value")
+                yield Static("", classes="stats-value", id="stat-val-value")
 
     def on_mount(self) -> None:
         self.border_title = "Stats"
@@ -87,4 +87,5 @@ StatsBar Horizontal {
         self.query_one("#stat-val-items", Static).update(item_text)
         self.query_one("#stat-val-rooms", Static).update(str(stats["room_count"]))
         self.query_one("#stat-val-containers", Static).update(str(stats["container_count"]))
-        self.query_one("#stat-val-value", Static).update(f"${stats['total_value']:.2f}")
+        from possession.settings import format_currency
+        self.query_one("#stat-val-value", Static).update(format_currency(stats["total_value"]))

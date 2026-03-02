@@ -1,8 +1,47 @@
 """Settings persistence and theme management for Possession."""
 
+import locale
 import sqlite3
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
+
+# ---------------------------------------------------------------------------
+# Locale-aware currency formatting
+# ---------------------------------------------------------------------------
+
+_locale_ready = False
+
+
+def _ensure_locale() -> None:
+    """Activate the system locale once (best-effort, no-op on failure)."""
+    global _locale_ready
+    if not _locale_ready:
+        try:
+            locale.setlocale(locale.LC_ALL, "")
+        except locale.Error:
+            pass
+        _locale_ready = True
+
+
+def format_currency(amount: Optional[float]) -> str:
+    """Format a monetary value using the user's system locale.
+
+    Returns an empty string for None. Falls back to basic $X,XXX.XX formatting
+    if the system locale does not provide currency data.
+
+    Args:
+        amount: The monetary value to format, or None.
+
+    Returns:
+        Locale-formatted currency string, or "" when amount is None.
+    """
+    if amount is None:
+        return ""
+    _ensure_locale()
+    try:
+        return locale.currency(amount, grouping=True)
+    except (ValueError, locale.Error):
+        return f"${amount:,.2f}"
 
 # ---------------------------------------------------------------------------
 # Theme palette definitions

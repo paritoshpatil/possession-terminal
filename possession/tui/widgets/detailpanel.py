@@ -34,7 +34,7 @@ DetailPanel {
     padding: 0 1;
     padding-top: 1;
     margin-left: 1;
-    border: $primary-darken-2 heavy;
+    border: $primary heavy;
     border-title-align: left;
 }
 #panel-title {
@@ -67,10 +67,10 @@ VerticalScroll {
         self.query_one("#panel-title", Static).update(
             f"[bold]  {item.get('name', '')}  [/bold]"
         )
+        from possession.settings import format_currency
         for field_key, label in self.FIELDS:
             if field_key == "cost":
-                val = item.get("cost")
-                display = f"${val:.2f}" if val is not None else "$0.00"
+                display = format_currency(item.get("cost")) or "—"
             else:
                 val = item.get(field_key)
                 display = val if val else "—"
