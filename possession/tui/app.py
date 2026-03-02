@@ -19,12 +19,18 @@ class PossessionApp(App):
     $block-cursor-background: #cba6f7;
     $block-cursor-foreground: #1e1e2e;
     $block-cursor-blurred-background: #cba6f740;
+    $scrollbar: #fab387;
+    $scrollbar-hover: #fab387;
+    $scrollbar-active: #fab387;
+    $scrollbar-background: #1e1e2e;
+    $scrollbar-corner-color: #1e1e2e;
 
     Screen {
         background: $surface;
     }
     DataTable {
         background: transparent;
+        scrollbar-size-vertical: 1;
     }
     DataTable > .datatable--cursor {
         background: $primary;
@@ -45,12 +51,18 @@ class PossessionApp(App):
     $block-cursor-background: #cba6f7;
     $block-cursor-foreground: #1e1e2e;
     $block-cursor-blurred-background: #cba6f740;
+    $scrollbar: #fab387;
+    $scrollbar-hover: #fab387;
+    $scrollbar-active: #fab387;
+    $scrollbar-background: #1e1e2e;
+    $scrollbar-corner-color: #1e1e2e;
 
     Screen {
         background: transparent;
     }
     DataTable {
         background: transparent;
+        scrollbar-size-vertical: 1;
     }
     DataTable > .datatable--cursor {
         background: $primary;
