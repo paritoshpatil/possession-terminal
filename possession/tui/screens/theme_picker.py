@@ -38,11 +38,19 @@ class ThemePickerScreen(ModalScreen):
     #theme-list {
         width: 1fr;
         height: auto;
+        padding: 0 1;
         max-height: 12;
         border: tall $surface;
     }
     #theme-list:focus {
         border: tall $border;
+    }
+    #theme-transparent-note {
+        height: 1;
+        color: $text-muted;
+        text-style: italic;
+        padding: 0 1;
+        margin-top: 1;
     }
     #theme-footer {
         dock: bottom;
@@ -72,13 +80,18 @@ class ThemePickerScreen(ModalScreen):
         self._original_transparent = transparent
         self._theme_names: list = []
 
-    _FOOTER_TEXT = "j/k: move | enter: select | t: toggle transparent | esc: close"
+    _FOOTER_TEXT = "j/k: move | enter: select | t: toggle transparent | esc: cancel"
 
     def compose(self) -> ComposeResult:
         with Vertical(id="theme-container"):
             yield Static("Theme", id="theme-title")
             yield ListView(id="theme-list")
+            yield Static(self._transparent_note(), id="theme-transparent-note")
             yield Static(self._FOOTER_TEXT, id="theme-footer")
+
+    def _transparent_note(self) -> str:
+        state = "on" if self._transparent else "off"
+        return f"transparent [{state}]: blends app background with your terminal"
 
     def on_mount(self) -> None:
         self._rebuild_list()
@@ -89,10 +102,7 @@ class ThemePickerScreen(ModalScreen):
         from possession.settings import THEMES
         lv = self.query_one("#theme-list", ListView)
 
-        # Store current index so we can restore focus after rebuild
         current_index = lv.index
-
-        # Clear and repopulate
         lv._nodes._clear()  # type: ignore[attr-defined]
 
         self._theme_names = list(THEMES.keys())
@@ -106,16 +116,6 @@ class ThemePickerScreen(ModalScreen):
                 )
             )
 
-        # Transparent toggle row at the bottom
-        trans_label = "ON " if self._transparent else "OFF"
-        lv.append(
-            ListItem(
-                Label(f"  [transparent: {trans_label}]"),
-                id="theme-__transparent__",
-            )
-        )
-
-        # Move cursor to previously active theme on first load
         if current_index is None:
             try:
                 idx = self._theme_names.index(self._current_theme)
@@ -123,21 +123,15 @@ class ThemePickerScreen(ModalScreen):
             except ValueError:
                 pass
 
-    def _update_transparent_row(self) -> None:
-        """Update the transparent toggle label in-place without full rebuild."""
-        lv = self.query_one("#theme-list", ListView)
-        trans_item = self.query_one("#theme-__transparent__", ListItem)
-        # Replace the label content
-        trans_item.query_one(Label).update(
-            f"  [transparent: {'ON ' if self._transparent else 'OFF'}]"
-        )
+    def _update_transparent_note(self) -> None:
+        self.query_one("#theme-transparent-note", Static).update(self._transparent_note())
 
     def on_list_view_highlighted(self, event: ListView.Highlighted) -> None:
         """Live-preview the theme as the cursor moves through the list."""
         if event.item is None:
             return
         item_id = event.item.id or ""
-        if item_id.startswith("theme-") and item_id != "theme-__transparent__":
+        if item_id.startswith("theme-"):
             theme_name = item_id[len("theme-"):]
             self._current_theme = theme_name
             self.app.apply_theme(theme_name, self._transparent, persist=False)
@@ -155,31 +149,17 @@ class ThemePickerScreen(ModalScreen):
             event.prevent_default()
 
         elif event.key == "t":
-            # Toggle transparent, preview live (no persist until Enter)
             self._transparent = not self._transparent
-            self._update_transparent_row()
+            self._update_transparent_note()
             self.app.apply_theme(self._current_theme, self._transparent, persist=False)
             event.prevent_default()
 
         elif event.key == "enter":
-            idx = lv.index
-            if idx is None:
-                event.prevent_default()
-                return
-
-            if idx < len(self._theme_names):
-                # Theme already previewed live — persist and close
-                self.app.apply_theme(self._current_theme, self._transparent, persist=True)
-                self.dismiss({"theme": self._current_theme, "transparent": self._transparent})
-            else:
-                # Transparent toggle row — toggle, persist, preview
-                self._transparent = not self._transparent
-                self._update_transparent_row()
-                self.app.apply_theme(self._current_theme, self._transparent, persist=True)
+            self.app.apply_theme(self._current_theme, self._transparent, persist=True)
+            self.dismiss({"theme": self._current_theme, "transparent": self._transparent})
             event.prevent_default()
 
         elif event.key == "escape":
-            # Revert to the state before the picker was opened
             self.app.apply_theme(self._original_theme, self._original_transparent, persist=True)
             self.dismiss(None)
             event.prevent_default()
