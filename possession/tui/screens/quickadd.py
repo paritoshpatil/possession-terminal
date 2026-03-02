@@ -66,7 +66,7 @@ class QuickAddScreen(ModalScreen):
         border: heavy $primary;
         background: $surface;
         padding: 0 1;
-        height: 16;
+        height: 12;
     }
     #quickadd-title {
         text-style: bold;
@@ -85,15 +85,15 @@ class QuickAddScreen(ModalScreen):
     #quickadd-input {
         width: 1fr;
         height: 3;
-        border: tall $surface-darken-1;
-        background: $surface-darken-1;
-        margin-bottom: 1;
+        border: heavy $primary;
+        background: transparent;
+        margin: 0;
     }
     #quickadd-confirm {
         width: 1fr;
         height: 3;
-        border: tall $surface-darken-1;
-        background: $surface-darken-1;
+        border: heavy $primary;
+        background: transparent;
         margin-bottom: 1;
     }
     #quickadd-footer {

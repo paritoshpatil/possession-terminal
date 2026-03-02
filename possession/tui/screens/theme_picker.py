@@ -21,7 +21,7 @@ class ThemePickerScreen(ModalScreen):
         align: center middle;
     }
     #theme-container {
-        width: 48;
+        width: 64;
         max-height: 20;
         border: heavy $primary;
         background: $surface;
@@ -29,8 +29,7 @@ class ThemePickerScreen(ModalScreen):
     }
     #theme-title {
         text-style: bold;
-        margin-bottom: 1;
-        color: $surface;
+         color: $surface;
         background: $primary-darken-2;
         text-align: center;
         padding: 0 1;
@@ -38,19 +37,22 @@ class ThemePickerScreen(ModalScreen):
     #theme-list {
         width: 1fr;
         height: auto;
-        padding: 0 1;
+        padding: 1;
+        margin: 0;
         max-height: 12;
-        border: tall $surface;
+        border: wide $surface;
     }
     #theme-list:focus {
-        border: tall $border;
+        border: wide $border;
     }
     #theme-transparent-note {
         height: 1;
         color: $text-muted;
         text-style: italic;
         padding: 0 1;
-        margin-top: 1;
+        margin-bottom: 2;
+        dock: bottom;
+        text-align: center;
     }
     #theme-footer {
         dock: bottom;
@@ -80,7 +82,7 @@ class ThemePickerScreen(ModalScreen):
         self._original_transparent = transparent
         self._theme_names: list = []
 
-    _FOOTER_TEXT = "j/k: move | enter: select | t: toggle transparent | esc: cancel"
+    _FOOTER_TEXT = "j/k: move | enter: select | t: transparent | esc: cancel"
 
     def compose(self) -> ComposeResult:
         with Vertical(id="theme-container"):
@@ -91,7 +93,7 @@ class ThemePickerScreen(ModalScreen):
 
     def _transparent_note(self) -> str:
         state = "on" if self._transparent else "off"
-        return f"transparent [{state}]: blends app background with your terminal"
+        return f"transparent: makes overlays and app bg transparent"
 
     def on_mount(self) -> None:
         self._rebuild_list()

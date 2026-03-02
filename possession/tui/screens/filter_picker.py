@@ -33,6 +33,10 @@ class FilterPickerScreen(ModalScreen):
     #picker-title {
         text-style: bold;
         margin-bottom: 1;
+        color: $surface;
+        background: $primary-darken-2;
+        text-align: center;
+        padding: 0 1;
     }
     #picker-search {
         width: 1fr;
@@ -102,7 +106,7 @@ class FilterPickerScreen(ModalScreen):
         self._delete_mode: bool = False
         self._delete_candidate: Optional[Dict] = None
 
-    _FOOTER_TEXT = "tab: switch focus  |  enter: select  |  d: delete"
+    _FOOTER_TEXT = "tab: switch focus | enter: select | d: delete | esc: close"
 
     def compose(self) -> ComposeResult:
         with Vertical(id="picker-container"):

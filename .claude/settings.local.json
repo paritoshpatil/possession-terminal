@@ -13,7 +13,9 @@
       "Bash(echo:*)",
       "Skill(gsd:discuss-phase)",
       "WebSearch",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash([ -f \"/Users/paritoshpatil/Personal/claude-projects/possession-terminal-2/.planning/quick/1-add-delete-functionality-for-rooms-conta/1-SUMMARY.md\" ] && echo \"FOUND: SUMMARY.md\" || echo \"MISSING: SUMMARY.md\"\ngit log --oneline --all | grep -q \"cbffed1\" && echo \"FOUND: cbffed1\" || echo \"MISSING: cbffed1\"\ngit log --oneline --all | grep -q \"eaf5002\" && echo \"FOUND: eaf5002\" || echo \"MISSING: eaf5002\")",
+      "Bash(pip show:*)"
     ]
   }
 }
