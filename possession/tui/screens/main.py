@@ -92,6 +92,8 @@ class MainScreen(Screen):
         ("j", "cursor_down", "Down"),
         ("k", "cursor_up", "Up"),
         ("G", "cursor_bottom", "Bottom"),
+        ("h", "scroll_left", "Scroll left"),
+        (";", "scroll_right", "Scroll right"),
         ("/", "open_filter", "Filter"),
         ("r", "open_room_picker", "Room"),
         ("c", "open_container_picker", "Container"),
@@ -132,6 +134,7 @@ class MainScreen(Screen):
         with Horizontal(id="main-body"):
             table = DataTable(cursor_type="row", show_header=True)
             table.border_title = "Items"
+            table.border_subtitle = "<- -> to scroll"
             yield table
             yield DetailPanel(id="detail-panel", classes="hidden")
         yield Input(
@@ -486,20 +489,26 @@ class MainScreen(Screen):
     # Cursor actions
     # ------------------------------------------------------------------
 
+    _SCROLL_STEP = 3
+
     def action_cursor_down(self) -> None:
-        """Move cursor down one row."""
-        self.query_one(DataTable).action_cursor_down()
+        table = self.query_one(DataTable)
+        table.move_cursor(row=min(table.cursor_row + self._SCROLL_STEP, table.row_count - 1), animate=False)
 
     def action_cursor_up(self) -> None:
-        """Move cursor up one row."""
-        self.query_one(DataTable).action_cursor_up()
+        table = self.query_one(DataTable)
+        table.move_cursor(row=max(table.cursor_row - self._SCROLL_STEP, 0), animate=False)
 
     def action_cursor_bottom(self) -> None:
-        """Jump cursor to the last row."""
         table = self.query_one(DataTable)
-        table.move_cursor(row=table.row_count - 1)
+        table.move_cursor(row=table.row_count - 1, animate=False)
 
     def action_cursor_top(self) -> None:
-        """Jump cursor to the first row."""
         table = self.query_one(DataTable)
-        table.move_cursor(row=0)   
+        table.move_cursor(row=0, animate=False)
+
+    def action_scroll_left(self) -> None:
+        self.query_one(DataTable).scroll_left(animate=False)
+
+    def action_scroll_right(self) -> None:
+        self.query_one(DataTable).scroll_right(animate=False)   
