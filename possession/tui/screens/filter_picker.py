@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Dict, List, Optional
 
 from textual import events
@@ -12,6 +13,10 @@ class FilterPickerScreen(ModalScreen):
 
     Opens as a floating overlay over MainScreen. Returns the selected item dict (with 'id'
     and 'name' keys) on confirmation, or None on Escape/cancel.
+
+    When the user presses 'd' on a highlighted item, an inline confirmation prompt appears
+    with impact details. Pressing 'y' deletes the entity and dismisses with
+    {"deleted": True, "id": ..., "name": ...}. Pressing 'n' or Escape cancels deletion.
     """
 
     DEFAULT_CSS = """
@@ -46,6 +51,13 @@ class FilterPickerScreen(ModalScreen):
         color: $text-muted;
         text-align: center;
     }
+    #picker-delete-confirm {
+        height: auto;
+        color: $text;
+        text-align: center;
+        background: $surface-darken-1;
+        padding: 0 1;
+    }
     """
 
     def __init__(
@@ -53,18 +65,26 @@ class FilterPickerScreen(ModalScreen):
         title: str,
         items: List[Dict],
         active_id: Optional[int] = None,
+        db_path: Optional[Path] = None,
+        kind: str = "room",
     ):
         """
         Args:
             title: Display title (e.g. "Room"). Used in header and empty-state message.
             items: List of dicts with 'id' (int) and 'name' (str) keys.
             active_id: ID of the currently active filter, or None.
+            db_path: Path to the SQLite database file (needed for delete and count queries).
+            kind: One of "room", "container", "category" — determines delete behavior.
         """
         super().__init__()
         self._title = title
         self._items = items
         self._active_id = active_id
+        self._db_path = db_path
+        self._kind = kind
         self._filtered: List[Dict] = []
+        self._delete_mode: bool = False
+        self._delete_candidate: Optional[Dict] = None
 
     def compose(self) -> ComposeResult:
         with Vertical(id="picker-container"):
@@ -72,6 +92,7 @@ class FilterPickerScreen(ModalScreen):
             yield Input(placeholder="Type to filter...", id="picker-search")
             yield ListView(id="picker-list")
             yield Static("", id="picker-hint")
+            yield Static("", id="picker-delete-confirm", classes="hidden")
 
     async def on_mount(self) -> None:
         await self._rebuild_list("")
@@ -119,10 +140,79 @@ class FilterPickerScreen(ModalScreen):
         if event.input.id == "picker-search":
             await self._rebuild_list(event.value)
 
+    def _get_impact_line(self, item: dict) -> str:
+        """Build the impact description string for the delete confirmation prompt."""
+        if self._kind == "room":
+            from possession.models import count_room_contents
+            counts = count_room_contents(self._db_path, item["id"])
+            c = counts["containers"]
+            i = counts["items"]
+            return (
+                f"This will also delete {c} container(s) and {i} item(s) will lose their room."
+            )
+        elif self._kind == "container":
+            from possession.models import count_container_items
+            counts = count_container_items(self._db_path, item["id"])
+            i = counts["items"]
+            return f"This will remove {i} item(s) from this container."
+        else:  # category
+            return "Items with this category will have their category cleared (not deleted)."
+
     def on_key(self, event: events.Key) -> None:
-        """Handle VIM navigation and confirm/dismiss."""
+        """Handle VIM navigation, delete confirmation, and confirm/dismiss."""
         lv = self.query_one("#picker-list", ListView)
-        if event.key == "escape":
+
+        # --- Delete mode: only respond to y / n / escape, block everything else ---
+        if self._delete_mode:
+            if event.key == "y":
+                # Perform the deletion
+                try:
+                    if self._kind == "room":
+                        from possession.models import delete_room
+                        delete_room(self._db_path, self._delete_candidate["id"])
+                    elif self._kind == "container":
+                        from possession.models import delete_container
+                        delete_container(self._db_path, self._delete_candidate["id"])
+                    else:  # category
+                        from possession.models import delete_category
+                        delete_category(self._db_path, self._delete_candidate["id"])
+                except ValueError:
+                    pass  # already gone
+                self.dismiss({
+                    "deleted": True,
+                    "id": self._delete_candidate["id"],
+                    "name": self._delete_candidate["name"],
+                })
+                event.prevent_default()
+                return
+            elif event.key in ("n", "escape"):
+                # Cancel deletion
+                self._delete_mode = False
+                self._delete_candidate = None
+                confirm = self.query_one("#picker-delete-confirm", Static)
+                confirm.add_class("hidden")
+                confirm.update("")
+                event.prevent_default()
+                return
+            else:
+                # Block all other navigation while confirming
+                event.prevent_default()
+                return
+
+        # --- Normal mode ---
+        if event.key == "d":
+            idx = lv.index
+            if idx is not None and idx < len(self._filtered):
+                candidate = self._filtered[idx]
+                self._delete_candidate = candidate
+                self._delete_mode = True
+                impact = self._get_impact_line(candidate)
+                confirm_text = f"Delete '{candidate['name']}'? {impact} [y/n]"
+                confirm = self.query_one("#picker-delete-confirm", Static)
+                confirm.remove_class("hidden")
+                confirm.update(confirm_text)
+            event.prevent_default()
+        elif event.key == "escape":
             self.dismiss(None)
         elif event.key == "j":
             lv.action_cursor_down()
@@ -148,4 +238,4 @@ class FilterPickerScreen(ModalScreen):
                     return
             except (ValueError, AttributeError, IndexError):
                 pass
-        hint.update("")
+        hint.update("[dim]d to delete[/dim]")

@@ -54,7 +54,7 @@ class MainScreen(Screen):
         padding: 0 1;
         padding-top: 1;
         background: transparent;
-        border: heavy $primary-darken-2;
+        border: heavy $primary;
         border-title-align: left;
     }
 
@@ -70,9 +70,10 @@ class MainScreen(Screen):
         dock: bottom;
         height: 1;
         background: $primary-darken-2;
-        color: $text-muted;
+        color: $surface;
         padding: 0 1;
         text-align: center;
+        text-style: bold;
     }
     
     """
@@ -105,8 +106,8 @@ class MainScreen(Screen):
         self._filter_category_name: Optional[str] = None
 
     _FOOTER_TEXT = (
-        "a add · e edit · r rooms · c containers · t categories"
-        " · enter details · esc close · q quit"
+        "add: a | edit: e | delete item: d | rooms: r | containers: c | categories: t"
+        " | details: enter | close: esc | quit: q"
     )
 
     app_title = r"""
@@ -322,7 +323,7 @@ class MainScreen(Screen):
         from possession.tui.screens.filter_picker import FilterPickerScreen
         rooms = list_rooms(self.app.db_path)
         self.app.push_screen(
-            FilterPickerScreen("Room", rooms, self._filter_room_id),
+            FilterPickerScreen("Room", rooms, self._filter_room_id, db_path=self.app.db_path, kind="room"),
             self._on_room_picked,
         )
 
@@ -334,7 +335,7 @@ class MainScreen(Screen):
         from possession.tui.screens.filter_picker import FilterPickerScreen
         containers = list_containers(self.app.db_path)
         self.app.push_screen(
-            FilterPickerScreen("Container", containers, self._filter_container_id),
+            FilterPickerScreen("Container", containers, self._filter_container_id, db_path=self.app.db_path, kind="container"),
             self._on_container_picked,
         )
 
@@ -346,7 +347,7 @@ class MainScreen(Screen):
         from possession.tui.screens.filter_picker import FilterPickerScreen
         categories = list_categories(self.app.db_path)
         self.app.push_screen(
-            FilterPickerScreen("Category", categories, self._filter_category_id),
+            FilterPickerScreen("Category", categories, self._filter_category_id, db_path=self.app.db_path, kind="category"),
             self._on_category_picked,
         )
 
@@ -354,6 +355,13 @@ class MainScreen(Screen):
         """Callback from the Room picker. Toggles filter if same room selected, else sets."""
         if result is None:
             return  # Escape — no change
+        if result.get("deleted"):
+            # Entity was deleted — clear filter if it was active, reload
+            if self._filter_room_id == result["id"]:
+                self._filter_room_id = None
+                self._filter_room_name = None
+            self._load_items()
+            return
         if result["id"] == self._filter_room_id:
             self._filter_room_id = None
             self._filter_room_name = None
@@ -366,6 +374,13 @@ class MainScreen(Screen):
         """Callback from the Container picker. Toggles filter if same container selected."""
         if result is None:
             return
+        if result.get("deleted"):
+            # Entity was deleted — clear filter if it was active, reload
+            if self._filter_container_id == result["id"]:
+                self._filter_container_id = None
+                self._filter_container_name = None
+            self._load_items()
+            return
         if result["id"] == self._filter_container_id:
             self._filter_container_id = None
             self._filter_container_name = None
@@ -377,6 +392,13 @@ class MainScreen(Screen):
     def _on_category_picked(self, result: Optional[dict]) -> None:
         """Callback from the Category picker. Toggles filter if same category selected."""
         if result is None:
+            return
+        if result.get("deleted"):
+            # Entity was deleted — clear filter if it was active, reload
+            if self._filter_category_id == result["id"]:
+                self._filter_category_id = None
+                self._filter_category_name = None
+            self._load_items()
             return
         if result["id"] == self._filter_category_id:
             self._filter_category_id = None
@@ -485,4 +507,4 @@ class MainScreen(Screen):
     def action_cursor_top(self) -> None:
         """Jump cursor to the first row."""
         table = self.query_one(DataTable)
-        table.move_cursor(row=0)
+        table.move_cursor(row=0)   
