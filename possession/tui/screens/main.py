@@ -93,7 +93,7 @@ class MainScreen(Screen):
         ("k", "cursor_up", "Up"),
         ("G", "cursor_bottom", "Bottom"),
         ("h", "scroll_left", "Scroll left"),
-        (";", "scroll_right", "Scroll right"),
+        ("l", "scroll_right", "Scroll right"),
         ("/", "open_filter", "Filter"),
         ("r", "open_room_picker", "Room"),
         ("c", "open_container_picker", "Container"),
@@ -489,15 +489,13 @@ class MainScreen(Screen):
     # Cursor actions
     # ------------------------------------------------------------------
 
-    _SCROLL_STEP = 3
+    _H_SCROLL_STEP = 8
 
     def action_cursor_down(self) -> None:
-        table = self.query_one(DataTable)
-        table.move_cursor(row=min(table.cursor_row + self._SCROLL_STEP, table.row_count - 1), animate=False)
+        self.query_one(DataTable).action_cursor_down()
 
     def action_cursor_up(self) -> None:
-        table = self.query_one(DataTable)
-        table.move_cursor(row=max(table.cursor_row - self._SCROLL_STEP, 0), animate=False)
+        self.query_one(DataTable).action_cursor_up()
 
     def action_cursor_bottom(self) -> None:
         table = self.query_one(DataTable)
@@ -508,7 +506,7 @@ class MainScreen(Screen):
         table.move_cursor(row=0, animate=False)
 
     def action_scroll_left(self) -> None:
-        self.query_one(DataTable).scroll_left(animate=False)
+        self.query_one(DataTable).scroll_relative(x=-self._H_SCROLL_STEP, animate=False)
 
     def action_scroll_right(self) -> None:
-        self.query_one(DataTable).scroll_right(animate=False)   
+        self.query_one(DataTable).scroll_relative(x=self._H_SCROLL_STEP, animate=False)   
