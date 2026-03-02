@@ -119,9 +119,10 @@ None.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 1 | Add delete functionality for rooms, containers, and categories in filter menus | 2026-03-02 | 7cac184 | [1-add-delete-functionality-for-rooms-conta](./quick/1-add-delete-functionality-for-rooms-conta/) |
+| 2 | Fix UI border and selection colors to use $primary instead of default blue | 2026-03-02 | 3bdb091 | [2-fix-ui-border-and-selection-colors-to-us](./quick/2-fix-ui-border-and-selection-colors-to-us/) |
 
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Quick task 1 complete — delete functionality for rooms, containers, and categories in filter menus
+Stopped at: Quick task 2 complete — fix UI border and selection colors to use $primary
 Resume file: None
