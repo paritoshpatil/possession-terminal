@@ -24,8 +24,8 @@ class FilterPickerScreen(ModalScreen):
         align: center middle;
     }
     #picker-container {
-        width: 52;
-        max-height: 16;
+        width: 64;
+        max-height: 24;
         border: solid $primary;
         background: $surface;
         padding: 0 1;
@@ -46,17 +46,23 @@ class FilterPickerScreen(ModalScreen):
         height: auto;
         max-height: 10;
     }
+    #picker-list > ListItem.--highlight {
+        background: $primary;
+        color: $surface;
+    }
     #picker-hint {
         height: 1;
-        color: $text-muted;
+        color: $text;
         text-align: center;
+        margin-top: 2;
     }
     #picker-delete-confirm {
         height: auto;
         color: $text;
         text-align: center;
-        background: $surface-darken-1;
+        background: $surface;
         padding: 0 1;
+        margin-top: 1;
     }
     """
 

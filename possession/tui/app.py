@@ -8,12 +8,12 @@ class PossessionApp(App):
     TITLE = "Possession"
 
     _CSS_DEFAULT = """
-    $primary: #8b5cf6;
-    $primary-darken-2: #4338ca;
-    $surface: #0f172a;
-    $surface-darken-1: #1e1b4b;
-    $text: #ffffff;
-    $text-muted: #e0e7ff;
+    $primary: #cba6f7;
+    $primary-darken-2: #fab387;
+    $surface: #1e1e2e;
+    $surface-darken-1: #11111b;
+    $text: #cdd6f4;
+    $text-muted: #bac2de;
     $panel: $primary-darken-2;
 
     Screen {
@@ -22,18 +22,23 @@ class PossessionApp(App):
     DataTable {
         background: transparent;
     }
-
     DataTable > .datatable--cursor {
         background: $primary;
     }
+    DataTable > .datatable--header {
+        color: $surface;
+    }
+    Input:focus {
+        border: tall $primary;
+    }
     """
     _CSS_TRANSPARENT = """
-    $primary: #8b5cf6;
-    $primary-darken-2: #4338ca;
-    $surface: #0f172a;
-    $surface-darken-1: #1e1b4b;
-    $text: #ffffff;
-    $text-muted: #e0e7ff;
+    $primary: #cba6f7;
+    $primary-darken-2: #fab387;
+    $surface: #1e1e2e;
+    $surface-darken-1: #11111b;
+    $text: #cdd6f4;
+    $text-muted: #bac2de;
     $panel: $primary-darken-2;
 
     Screen {
@@ -44,6 +49,12 @@ class PossessionApp(App):
     }
     DataTable > .datatable--cursor {
         background: $primary;
+    }
+    DataTable > .datatable--header {
+        color: $surface;
+    }
+    Input:focus {
+        border: tall $primary;
     }
     """
 
