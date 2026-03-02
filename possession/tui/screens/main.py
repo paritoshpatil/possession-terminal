@@ -101,6 +101,7 @@ class MainScreen(Screen):
         ("a", "open_quickadd", "Add"),
         ("e", "edit_item", "Edit"),
         ("d", "delete_item", "Delete"),
+        ("X", "open_theme_picker", "Theme"),
         ("q", "go_back", "Back"),
     ]
 
@@ -119,7 +120,7 @@ class MainScreen(Screen):
 
     _FOOTER_TEXT = (
         "add: a | edit: e | delete item: d | rooms: r | containers: c | categories: t"
-        " | details: enter | close: esc | quit: q"
+        " | details: enter | close: esc | theme: X | quit: q"
     )
 
     app_title = r"""
@@ -134,7 +135,7 @@ class MainScreen(Screen):
         with Horizontal(id="main-body"):
             table = DataTable(cursor_type="row", show_header=True)
             table.border_title = "Items"
-            table.border_subtitle = "<- -> to scroll"
+            table.border_subtitle = "h/j/k/l to navigate"
             yield table
             yield DetailPanel(id="detail-panel", classes="hidden")
         yield Input(
@@ -449,6 +450,26 @@ class MainScreen(Screen):
 
     def action_go_back(self) -> None:
         self.app.exit()
+
+    def action_open_theme_picker(self) -> None:
+        """Open the theme picker modal (X key)."""
+        if self._any_input_active():
+            return
+        from possession.tui.screens.theme_picker import ThemePickerScreen
+        self.app.push_screen(
+            ThemePickerScreen(
+                self.app.db_path,
+                self.app._current_theme,
+                self.app._transparent,
+            ),
+            self._on_theme_picked,
+        )
+
+    def _on_theme_picked(self, result) -> None:
+        """Callback from the theme picker. Applies the selected theme."""
+        if result is None:
+            return
+        self.app.apply_theme(result["theme"], result["transparent"])
 
     # ------------------------------------------------------------------
     # Key handling
