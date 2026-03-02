@@ -36,8 +36,8 @@ class FilterPickerScreen(ModalScreen):
     }
     #picker-search {
         width: 1fr;
-        height: 1;
-        border: none;
+        height: 3;
+        border: tall $surface-darken-1;
         background: $surface-darken-1;
         margin-bottom: 1;
     }
@@ -45,6 +45,11 @@ class FilterPickerScreen(ModalScreen):
         width: 1fr;
         height: auto;
         max-height: 10;
+        border: tall $surface;
+    }
+    #picker-list:focus {
+        border: tall $border;
+        background-tint: $surface 0%;
     }
     #picker-hint {
         height: 1;
