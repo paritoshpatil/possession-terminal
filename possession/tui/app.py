@@ -31,6 +31,13 @@ class PossessionApp(App):
     Input:focus {
         border: tall $primary;
     }
+    ListView > ListItem.--highlight {
+        background: $primary 10%;
+    }
+    ListView:focus > ListItem.--highlight {
+        background: $primary;
+        color: $surface;
+    }
     """
     _CSS_TRANSPARENT = """
     $primary: #cba6f7;
@@ -55,6 +62,13 @@ class PossessionApp(App):
     }
     Input:focus {
         border: tall $primary;
+    }
+    ListView > ListItem.--highlight {
+        background: $primary 10%;
+    }
+    ListView:focus > ListItem.--highlight {
+        background: $primary;
+        color: $surface;
     }
     """
 
