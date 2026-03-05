@@ -9,6 +9,9 @@ A terminal-based home inventory manager. Track what you own, where it is, and wh
 ▐▌   ▝▚▄▞▘▗▄▄▞▘▗▄▄▞▘▐▙▄▄▖▗▄▄▞▘▗▄▄▞▘▗▄█▄▖▝▚▄▞▘▐▌  ▐▌
 ```
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6b9af21f-435e-4c72-8551-fd91ad2a02b4" />
+
+
 ## Installation
 
 ```bash
